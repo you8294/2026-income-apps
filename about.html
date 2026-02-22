@@ -21,6 +21,7 @@
 
         .gradient-text {
             background: linear-gradient(to right, #2563eb, #7c3aed);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -44,6 +45,8 @@
                     <li><a href="char-count.html" class="hover:text-blue-600 transition-colors">글자수 세기</a></li>
                     <li><a href="salary.html" class="hover:text-blue-600 transition-colors">연봉 계산기</a></li>
                     <li><a href="percent.html" class="hover:text-blue-600 transition-colors">퍼센트 계산기</a></li>
+                    <li><a href="part-time.html" class="hover:text-blue-600 transition-colors">주휴수당 계산기</a></li>
+                    <li><a href="num-to-korean.html" class="hover:text-blue-600 transition-colors">숫자 한글 변환기</a></li>
                     <li><a href="tips.html" class="hover:text-blue-600 transition-colors">유용한 팁</a></li>
                     <li><a href="about.html" class="text-blue-600 font-bold">소개</a></li>
                 </ul>
@@ -168,6 +171,17 @@
                             <p class="font-bold text-slate-800 group-hover:text-blue-700 transition-colors">실시간 글자수 세기
                             </p>
                             <p class="text-xs text-slate-500">공백 포함/제외, 단어수, 바이트 계산</p>
+                        </div>
+                    </a>
+                    <a href="num-to-korean.html"
+                        class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-teal-300 hover:bg-teal-50 transition-colors group">
+                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
+                            <i data-lucide="calculator" class="w-5 h-5 text-teal-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-800 group-hover:text-teal-700 transition-colors">숫자 ↔ 한글 변환기
+                            </p>
+                            <p class="text-xs text-slate-500">서류 작성 필수 콤마, 원정 표기 등</p>
                         </div>
                     </a>
                 </div>
