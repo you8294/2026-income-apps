@@ -39,7 +39,7 @@
 ---
 
 ## 📂 프로젝트 파일 구조 (File Structure)
-총 3개의 유틸리티 도구와 9개의 정보성 팁(블로그) 페이지가 `tips.html` 허브를 통해 유기적으로 연결되어 있습니다.
+총 4개의 유틸리티 도구와 13개의 정보성 팁(블로그) 페이지가 `tips.html` 허브를 통해 유기적으로 연결되어 있습니다.
 
 📦 **smart-utility-project**
  ┣ 📜 **index.html**           # [메인/허브] 도구 및 팁 대시보드
@@ -48,16 +48,22 @@
  ┣ 📜 **percent.html**         # [도구3] 퍼센트/마진율/수익률 계산기 & 백분율 가이드
  ┣ 📜 **part-time.html**       # [도구4] 주휴수당 및 퇴직금 계산기 & 단기근로 가이드
  ┣ 📜 **tips.html**            # [허브] 모든 유용한 팁 모아보기 (전체 목차)
- ┣ 📜 **cover-letter-tip.html** # [취업 팁] 자소서 소제목 작성법 (index.html 연계)
- ┣ 📜 **interview-tip.html**    # [취업 팁] 면접 1분 자기소개 요령 (index.html 연계)
- ┣ 📜 **resume-tip.html**       # [취업 팁] 표준 이력서 양식 다운로드 (salary.html 연계)
- ┣ 📜 **savings-tip.html**      # [금융 팁] 2026 청년도약계좌 조건/신청 (salary.html 연계)
- ┣ 📜 **year-end-tax-tip.html** # [금융 팁] 직장인 연말정산 꿀팁 (salary.html 연계)
- ┣ 📜 **tax-reduction-tip.html** # [금융 팁] 중소기업 청년 소득세 감면 (salary.html 연계)
- ┣ 📜 **margin-tip.html**        # [비즈 팁] 스마트스토어 마진율 계산 (percent.html 연계)
- ┣ 📜 **interest-tip.html**      # [금융 팁] 예적금 복리 단리 차이점 (percent.html 연계)
- ┣ 📜 **card-tip.html**          # [금융 팁] 신용카드 체크카드 황금 비율 (percent.html 연계)
- ┣ 📜 **part-time-tip.html**     # [근로 팁] 단기근로자 필수 노동법 가이드 (part-time.html 연계)
+ ┣ 📜 **cover-letter-tip.html** # [취업 팁] 자소서 소제목 작성법
+ ┣ 📜 **interview-tip.html**    # [취업 팁] 면접 1분 자기소개 요령
+ ┣ 📜 **resume-tip.html**       # [취업 팁] 표준 이력서 양식 다운로드
+ ┣ 📜 **self-introduction-tip.html** # [취업 팁] STAR 기법 1분 자기소개 (NEW)
+ ┣ 📜 **savings-tip.html**      # [금융 팁] 2026 청년도약계좌 조건/신청
+ ┣ 📜 **year-end-tax-tip.html** # [금융 팁] 직장인 연말정산 꿀팁
+ ┣ 📜 **tax-reduction-tip.html** # [금융 팁] 중소기업 청년 소득세 감면
+ ┣ 📜 **tax-refund-tip.html**    # [금융 팁] 종합소득세 3.3% 환급 가이드 (NEW)
+ ┣ 📜 **budget-planning-tip.html** # [금융/재테크] 50:30:20 예산 짜기 법칙 (NEW)
+ ┣ 📜 **etf-vs-fund-tip.html**   # [투자 팁] ETF vs 인덱스 펀드 비교 (NEW)
+ ┣ 📜 **margin-tip.html**        # [비즈 팁] 스마트스토어 마진율 계산
+ ┣ 📜 **interest-tip.html**      # [금융 팁] 예적금 복리 단리 차이점
+ ┣ 📜 **card-tip.html**          # [금융 팁] 신용카드 체크카드 황금 비율
+ ┣ 📜 **part-time-tip.html**     # [근로 팁] 단기근로자 필수 노동법 가이드
+ ┣ 📜 **sitemap.xml**           # [SEO] 검색엔진 최적화용 사이트맵 (NEW)
+ ┣ 📜 **robots.txt**            # [SEO] 검색 로봇 접근 제어 설정 (NEW)
  ┗ 📜 **README.md**             # 프로젝트 설명서 (현재 파일)
 
 ---
@@ -95,7 +101,7 @@
 2. **개인 도메인 연결 (필수)**:
    - 가비아, 호스팅케이알 등에서 구매한 도메인을 GitHub Pages에 연결합니다.
 3. **구글 서치콘솔 등록**:
-   - 구글 검색에 사이트가 노출되도록 서치콘솔에 소유권을 확인하고 사이트맵을 제출합니다.
+   - 구글 검색에 사이트가 노출되도록 서치콘솔에 소유권을 확인하고 사이트맵을 제출합니다. (미리 생성된 `sitemap.xml`과 `robots.txt` 활용. 이때 반드시 해당 파일 내의 'your-domain.com'을 실제 도메인으로 수정한 뒤 제출하세요.)
 4. **구글 애드센스 심사**:
    - 애드센스 홈페이지에서 사이트를 추가하고, 발급받은 심사용 `<script>` 코드를 모든 HTML 파일의 `<head>` 태그 사이에 넣습니다.
 5. **애드센스 승인 후 광고 삽입**:
