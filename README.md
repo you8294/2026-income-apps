@@ -42,9 +42,11 @@
 총 3개의 유틸리티 도구와 9개의 정보성 팁(블로그) 페이지가 `tips.html` 허브를 통해 유기적으로 연결되어 있습니다.
 
 📦 **smart-utility-project**
- ┣ 📜 **index.html**           # [메인/도구1] 글자수 세기 & 자소서 가이드
+ ┣ 📜 **index.html**           # [메인/허브] 도구 및 팁 대시보드
+ ┣ 📜 **char-count.html**      # [도구1] 글자수 세기 & 자소서 가이드
  ┣ 📜 **salary.html**          # [도구2] 연봉 실수령액 계산기 & 4대보험 가이드
  ┣ 📜 **percent.html**         # [도구3] 퍼센트/마진율/수익률 계산기 & 백분율 가이드
+ ┣ 📜 **part-time.html**       # [도구4] 주휴수당 및 퇴직금 계산기 & 단기근로 가이드
  ┣ 📜 **tips.html**            # [허브] 모든 유용한 팁 모아보기 (전체 목차)
  ┣ 📜 **cover-letter-tip.html** # [취업 팁] 자소서 소제목 작성법 (index.html 연계)
  ┣ 📜 **interview-tip.html**    # [취업 팁] 면접 1분 자기소개 요령 (index.html 연계)
@@ -55,6 +57,7 @@
  ┣ 📜 **margin-tip.html**        # [비즈 팁] 스마트스토어 마진율 계산 (percent.html 연계)
  ┣ 📜 **interest-tip.html**      # [금융 팁] 예적금 복리 단리 차이점 (percent.html 연계)
  ┣ 📜 **card-tip.html**          # [금융 팁] 신용카드 체크카드 황금 비율 (percent.html 연계)
+ ┣ 📜 **part-time-tip.html**     # [근로 팁] 단기근로자 필수 노동법 가이드 (part-time.html 연계)
  ┗ 📜 **README.md**             # 프로젝트 설명서 (현재 파일)
 
 ---
