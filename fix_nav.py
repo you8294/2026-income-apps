@@ -8,10 +8,10 @@ def fix_all_navs():
     standard_nav_links = """
                 <ul class="flex space-x-6 text-sm font-medium text-slate-600">
                     <li><a href="index.html" class="[INDEX_CLASS]">홈</a></li>
-                    <li><a href="char-count.html" class="[CHAR_CLASS]">글자수 세기</a></li>
                     <li><a href="salary.html" class="[SALARY_CLASS]">연봉 계산기</a></li>
-                    <li><a href="percent.html" class="[PERCENT_CLASS]">퍼센트 계산기</a></li>
                     <li><a href="part-time.html" class="[PARTTIME_CLASS]">주휴수당 계산기</a></li>
+                    <li><a href="percent.html" class="[PERCENT_CLASS]">퍼센트 계산기</a></li>
+                    <li><a href="char-count.html" class="[CHAR_CLASS]">글자수 세기</a></li>
                     <li><a href="num-to-korean.html" class="[NUMKOR_CLASS]">숫자 한글 변환기</a></li>
                     <li><a href="tips.html" class="[TIPS_CLASS]">유용한 팁</a></li>
                     <li><a href="about.html" class="[ABOUT_CLASS]">소개</a></li>
