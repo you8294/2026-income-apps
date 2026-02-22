@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주휴수당 및 퇴직금 계산기 - 알바, 단기근로 필수툴</title>
     <meta name="description" content="2026년 최저시급 기준 알바생, 단기 근로자를 위한 주휴수당, 월급, 예상 퇴직금 자동 계산기입니다. 무료로 정확하게 계산해 보세요.">
-        <!-- 파비콘 -->
+    <!-- 파비콘 -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,7 +17,7 @@
             font-family: 'Pretendard', sans-serif;
             background-color: #f8fafc;
         }
-</style>
+    </style>
 </head>
 
 <body class="text-slate-800 antialiased">
@@ -38,6 +38,7 @@
                     <li><a href="salary.html" class="hover:text-blue-600 transition-colors">연봉 계산기</a></li>
                     <li><a href="percent.html" class="hover:text-blue-600 transition-colors">퍼센트 계산기</a></li>
                     <li><a href="part-time.html" class="text-blue-600 font-bold">주휴수당 계산기</a></li>
+                    <li><a href="num-to-korean.html" class="hover:text-blue-600 transition-colors">숫자 한글 변환기</a></li>
                     <li><a href="tips.html" class="hover:text-blue-600 transition-colors">유용한 팁</a></li>
                     <li><a href="about.html" class="hover:text-blue-600 transition-colors">소개</a></li>
                 </ul>
@@ -51,7 +52,7 @@
             <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">주휴수당 & 퇴직금 계산기</h2>
             <p class="text-slate-500">2026년 최저시급(10,030원) 기준 알바생 필수 계산기</p>
         </div>
-<div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
             <!-- 입력 영역 -->
             <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 h-fit">
                 <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="calculator"
@@ -64,9 +65,10 @@
                             <button id="btn-min-wage" class="text-xs text-blue-600 hover:text-blue-800 font-bold">2026
                                 최저시급 적용</button>
                         </label>
-                        <input type="number" id="input-wage"
+                        <input type="text" inputmode="numeric" id="input-wage"
                             class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="예: 10030" value="10030">
+                            placeholder="예: 10,030" value="10,030"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1">1주 근무 일수 (일)</label>
@@ -83,9 +85,10 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1">1일 평균 근무 시간 (시간)</label>
-                        <input type="number" id="input-hours"
+                        <input type="text" inputmode="numeric" id="input-hours"
                             class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="1~24 시간" value="8" min="1" max="24">
+                            placeholder="1~24 시간" value="8"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                         <p class="text-xs text-slate-400 mt-1">* 휴게시간을 제외한 실제 근무 가능 시간을 입력하세요.</p>
                     </div>
                     <button id="btn-calc"
@@ -194,14 +197,17 @@
 
     <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12 text-sm">
         <div class="mt-6 flex justify-center gap-4 text-xs font-medium text-slate-500">
-                <a href="privacy.html" class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">개인정보처리방침</a>
-                <span>|</span>
-                <a href="terms.html" class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">이용약관</a>
-            </div>
-            <div class="mt-4 text-xs text-slate-500">
-                <span class="font-semibold">운영자:</span> artistrdg | <span class="font-semibold">이메일:</span> <a href="mailto:synonym.crowns.0f@icloud.com" class="hover:underline">synonym.crowns.0f@icloud.com</a>
-            </div>
-            <p class="mt-4">© 2026 만능계산기. All rights reserved.</p>
+            <a href="privacy.html"
+                class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">개인정보처리방침</a>
+            <span>|</span>
+            <a href="terms.html"
+                class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">이용약관</a>
+        </div>
+        <div class="mt-4 text-xs text-slate-500">
+            <span class="font-semibold">운영자:</span> artistrdg | <span class="font-semibold">이메일:</span> <a
+                href="mailto:synonym.crowns.0f@icloud.com" class="hover:underline">synonym.crowns.0f@icloud.com</a>
+        </div>
+        <p class="mt-4">© 2026 만능계산기. All rights reserved.</p>
         <p class="mt-2 text-xs opacity-50">이 도구는 클라이언트 환경에서 작동하며, 사용자가 입력한 데이터는 서버에 저장되지 않습니다.</p>
     </footer>
 
@@ -209,13 +215,13 @@
         lucide.createIcons();
 
         document.getElementById('btn-min-wage').addEventListener('click', () => {
-            document.getElementById('input-wage').value = 10030; // 2026 예상 최저시급
+            document.getElementById('input-wage').value = '10,030'; // 2026 예상 최저시급
         });
 
         document.getElementById('btn-calc').addEventListener('click', () => {
-            const wage = parseInt(document.getElementById('input-wage').value) || 0;
+            const wage = parseInt(document.getElementById('input-wage').value.replace(/,/g, '')) || 0;
             const days = parseInt(document.getElementById('input-days').value) || 0;
-            const hoursPerDay = parseInt(document.getElementById('input-hours').value) || 0;
+            const hoursPerDay = parseInt(document.getElementById('input-hours').value.replace(/,/g, '')) || 0;
 
             const totalWeeklyHours = days * hoursPerDay;
 

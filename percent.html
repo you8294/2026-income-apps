@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>퍼센트 계산기 - 할인율, 마진율, 증감률 자동계산</title>
     <meta name="description" content="쇼핑 할인율, 주식 수익률, 마진율 등을 쉽게 계산할 수 있는 무료 퍼센트(백분율) 계산기입니다.">
-        <!-- 파비콘 -->
+    <!-- 파비콘 -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,7 +17,8 @@
             font-family: 'Pretendard', sans-serif;
             background-color: #f8fafc;
         }
-.calc-row input {
+
+        .calc-row input {
             width: 120px;
             text-align: right;
         }
@@ -58,6 +59,7 @@
                     <li><a href="salary.html" class="hover:text-blue-600 transition-colors">연봉 계산기</a></li>
                     <li><a href="percent.html" class="text-blue-600 font-bold">퍼센트 계산기</a></li>
                     <li><a href="part-time.html" class="hover:text-blue-600 transition-colors">주휴수당 계산기</a></li>
+                    <li><a href="num-to-korean.html" class="hover:text-blue-600 transition-colors">숫자 한글 변환기</a></li>
                     <li><a href="tips.html" class="hover:text-blue-600 transition-colors">유용한 팁</a></li>
                     <li><a href="about.html" class="hover:text-blue-600 transition-colors">소개</a></li>
                 </ul>
@@ -78,11 +80,13 @@
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <p class="text-sm font-bold text-slate-500 mb-3">비율 계산</p>
                 <div class="calc-row flex items-center gap-3">
-                    <input type="number" id="v1" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="전체값">
+                    <input type="text" inputmode="numeric" id="v1"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="전체값"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">의</span>
-                    <input type="number" id="v2" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="비율(%)">
+                    <input type="text" inputmode="numeric" id="v2"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="비율(%)"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">%는 얼마?</span>
                     <button onclick="calc1()"
                         class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 whitespace-nowrap">계산</button>
@@ -96,11 +100,13 @@
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <p class="text-sm font-bold text-slate-500 mb-3">일부값 비율</p>
                 <div class="calc-row flex items-center gap-3">
-                    <input type="number" id="v3" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="전체값">
+                    <input type="text" inputmode="numeric" id="v3"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="전체값"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">에서</span>
-                    <input type="number" id="v4" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="일부값">
+                    <input type="text" inputmode="numeric" id="v4"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="일부값"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">은(는) 몇 %?</span>
                     <button onclick="calc2()"
                         class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 whitespace-nowrap">계산</button>
@@ -114,11 +120,13 @@
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <p class="text-sm font-bold text-slate-500 mb-3">증감률 (할인/인상)</p>
                 <div class="calc-row flex items-center gap-3">
-                    <input type="number" id="v5" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="이전값">
+                    <input type="text" inputmode="numeric" id="v5"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="이전값"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">이(가)</span>
-                    <input type="number" id="v6" class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="새로운값">
+                    <input type="text" inputmode="numeric" id="v6"
+                        class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="새로운값"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');">
                     <span class="text-slate-600 font-medium">(으)로 변하면?</span>
                     <button onclick="calc3()"
                         class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 whitespace-nowrap">계산</button>
@@ -208,24 +216,24 @@
         }
 
         function calc1() {
-            const v1 = parseFloat(document.getElementById('v1').value);
-            const v2 = parseFloat(document.getElementById('v2').value);
+            const v1 = parseFloat(document.getElementById('v1').value.replace(/,/g, ''));
+            const v2 = parseFloat(document.getElementById('v2').value.replace(/,/g, ''));
             if (isNaN(v1) || isNaN(v2)) return;
             const res = v1 * (v2 / 100);
             document.getElementById('r1').textContent = formatNum(res);
         }
 
         function calc2() {
-            const v3 = parseFloat(document.getElementById('v3').value);
-            const v4 = parseFloat(document.getElementById('v4').value);
+            const v3 = parseFloat(document.getElementById('v3').value.replace(/,/g, ''));
+            const v4 = parseFloat(document.getElementById('v4').value.replace(/,/g, ''));
             if (isNaN(v3) || isNaN(v4) || v3 === 0) return;
             const res = (v4 / v3) * 100;
             document.getElementById('r2').textContent = formatNum(res) + ' %';
         }
 
         function calc3() {
-            const v5 = parseFloat(document.getElementById('v5').value);
-            const v6 = parseFloat(document.getElementById('v6').value);
+            const v5 = parseFloat(document.getElementById('v5').value.replace(/,/g, ''));
+            const v6 = parseFloat(document.getElementById('v6').value.replace(/,/g, ''));
             if (isNaN(v5) || isNaN(v6) || v5 === 0) return;
             const res = ((v6 - v5) / v5) * 100;
             const sign = res > 0 ? '+' : '';
