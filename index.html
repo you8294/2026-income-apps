@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무료 글자수 세기 프로그램 - 이력서, 자소서 작성 필수툴</title>
+    <!-- SEO를 위한 메타 태그 -->
+    <meta name="description" content="이력서, 자기소개서, 블로그 포스팅을 위한 무료 글자수 세기 계산기입니다. 공백 포함/제외, 바이트 계산을 실시간으로 제공합니다.">
+    <!-- Tailwind CSS (디자인을 위해 추가) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 기본 폰트 및 부드러운 스크롤 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        .ad-banner { background-color: #e2e8f0; border: 1px dashed #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <!-- 상단 헤더 -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <h1 class="text-xl font-bold text-blue-600 flex items-center gap-2">
+                <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                스마트 글자수 세기
+            </h1>
+            <nav class="hidden sm:block">
+                <ul class="flex space-x-4 text-sm font-medium text-slate-600">
+                    <li><a href="#" class="hover:text-blue-600">도구모음</a></li>
+                    <li><a href="#guide" class="hover:text-blue-600">사용가이드</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- 메인 타이틀 -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">실시간 글자수 계산기</h2>
+            <p class="text-slate-500">이력서, 자기소개서, 리포트 작성 시 편리하게 사용하세요.</p>
+        </div>
+
+        <!-- 1. 애드센스 광고 위치 (상단) -->
+        <!-- 구글 애드센스 승인 후 여기에 코드를 넣으세요 -->
+        <div class="ad-banner w-full h-24 mb-8 flex items-center justify-center rounded-lg text-slate-500 text-sm">
+            <span>[ 구글 애드센스 상단 반응형 광고 위치 ]</span>
+        </div>
+
+        <!-- 2. 웹 유틸리티 (계산기) 영역 -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-100">
+            <!-- 상태 표시줄 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded-xl text-center">
+                    <p class="text-sm text-blue-600 font-semibold mb-1">공백 포함</p>
+                    <p class="text-2xl font-bold text-slate-900" id="count-with-space">0</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-xl text-center">
+                    <p class="text-sm text-emerald-600 font-semibold mb-1">공백 제외</p>
+                    <p class="text-2xl font-bold text-slate-900" id="count-without-space">0</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-xl text-center">
+                    <p class="text-sm text-purple-600 font-semibold mb-1">단어 수</p>
+                    <p class="text-2xl font-bold text-slate-900" id="count-words">0</p>
+                </div>
+                <div class="bg-orange-50 p-4 rounded-xl text-center">
+                    <p class="text-sm text-orange-600 font-semibold mb-1">바이트 (Byte)</p>
+                    <p class="text-2xl font-bold text-slate-900" id="count-bytes">0</p>
+                </div>
+            </div>
+
+            <!-- 입력 창 -->
+            <div class="relative">
+                <textarea id="text-input" 
+                    class="w-full h-64 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-y text-base"
+                    placeholder="여기에 내용을 입력하거나 붙여넣기(Ctrl+V) 하세요..."></textarea>
+            </div>
+
+            <!-- 버튼 컨트롤 -->
+            <div class="flex justify-end gap-3 mt-4">
+                <button id="btn-copy" class="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-medium">
+                    <i data-lucide="copy" class="w-4 h-4"></i> 전체 복사
+                </button>
+                <button id="btn-clear" class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i> 지우기
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. 애드센스 광고 위치 (중단) -->
+        <div class="ad-banner w-full h-auto min-h-[250px] mb-12 flex items-center justify-center rounded-lg text-slate-500 text-sm p-4 text-center">
+            <span>[ 구글 애드센스 디스플레이/멀티플렉스 광고 위치 ]<br><br>도구와 텍스트 사이에 광고를 넣으면 클릭률(CTR)이 높아집니다.</span>
+        </div>
+
+        <!-- 4. 하단 SEO 텍스트 영역 (이 부분이 애드고시 승인과 구글 검색 노출의 핵심입니다) -->
+        <article id="guide" class="prose max-w-none bg-white rounded-2xl shadow-sm p-8 border border-slate-100">
+            <h3 class="text-2xl font-bold mb-4 text-slate-800">자기소개서 글자수, 왜 중요할까?</h3>
+            <p class="text-slate-600 leading-relaxed mb-6">
+                기업의 채용 담당자는 수천 건의 이력서를 검토합니다. 이때 지원자가 지정된 글자 수를 준수했는지는 '기본적인 성실성'과 '문서 이해도'를 평가하는 첫 번째 기준이 됩니다. 보통 요구하는 분량의 80~90% 이상을 채우는 것이 가장 이상적입니다.
+            </p>
+
+            <h4 class="text-xl font-bold mb-3 text-slate-800">공백 포함 vs 공백 제외의 차이</h4>
+            <p class="text-slate-600 leading-relaxed mb-6">
+                대부분의 대기업(삼성, 현대차 등)과 취업 포털(사람인, 잡코리아)은 <strong>'공백 포함'</strong>을 기준으로 글자 수를 계산합니다. 하지만 일부 공공기관이나 보수적인 기업의 경우 <strong>'공백 제외'</strong> 혹은 <strong>'바이트(Byte)'</strong> 단위를 요구하기도 하니 채용 공고를 꼼꼼히 확인해야 합니다.
+            </p>
+
+            <h4 class="text-xl font-bold mb-3 text-slate-800">바이트(Byte) 계산법 (한글/영문)</h4>
+            <ul class="list-disc pl-5 text-slate-600 space-y-2 mb-6">
+                <li><strong>영문/숫자/띄어쓰기:</strong> 1글자당 1 Byte 처리 (기본 인코딩)</li>
+                <li><strong>한글:</strong> 시스템에 따라 1글자당 2 Byte 또는 3 Byte(UTF-8)로 처리됩니다. 본 계산기는 가장 범용적인 2 Byte 기준으로 산정하여 보여줍니다.</li>
+            </ul>
+
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                <p class="text-sm text-blue-800 font-medium">
+                    💡 <strong>SEO(검색엔진 최적화) 팁:</strong> 애드센스 승인을 받으려면 이 영역에 약 1,000자 이상의 독창적이고 유용한 정보성 글을 작성해 두어야 구글 봇이 '가치 있는 웹사이트'로 판단하여 광고를 달아줍니다.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12 text-sm">
+        <p>© 2026 스마트 글자수 세기. All rights reserved.</p>
+        <p class="mt-2">이 도구는 클라이언트 환경에서 작동하며, 사용자가 입력한 데이터는 서버로 전송되거나 저장되지 않습니다.</p>
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        // Lucide 아이콘 초기화
+        lucide.createIcons();
+
+        // DOM 요소 가져오기
+        const textInput = document.getElementById('text-input');
+        const countWithSpace = document.getElementById('count-with-space');
+        const countWithoutSpace = document.getElementById('count-without-space');
+        const countWords = document.getElementById('count-words');
+        const countBytes = document.getElementById('count-bytes');
+        
+        const btnCopy = document.getElementById('btn-copy');
+        const btnClear = document.getElementById('btn-clear');
+
+        // 글자수 계산 함수
+        function updateCounts() {
+            const text = textInput.value;
+
+            // 1. 공백 포함
+            countWithSpace.textContent = text.length.toLocaleString();
+
+            // 2. 공백 제외 (모든 공백, 줄바꿈 제거)
+            const textWithoutSpace = text.replace(/[\s\n\r]/g, '');
+            countWithoutSpace.textContent = textWithoutSpace.length.toLocaleString();
+
+            // 3. 단어 수 (공백 기준으로 분리)
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            countWords.textContent = words.toLocaleString();
+
+            // 4. 바이트 계산 (한글 2바이트, 영문/숫자/공백 1바이트 기준)
+            let bytes = 0;
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i);
+                if (charCode <= 0x00007F) {
+                    bytes += 1;
+                } else {
+                    bytes += 2; // 한글 등은 2바이트로 계산
+                }
+            }
+            countBytes.textContent = bytes.toLocaleString();
+        }
+
+        // 입력창 이벤트 리스너 (실시간 업데이트)
+        textInput.addEventListener('input', updateCounts);
+
+        // 복사 버튼
+        btnCopy.addEventListener('click', () => {
+            if(textInput.value.trim() === '') {
+                // 커스텀 메시지 모달이나 UI로 대체 (시스템 얼럿 지양)
+                const originalText = btnCopy.innerHTML;
+                btnCopy.innerHTML = '<i data-lucide="x" class="w-4 h-4"></i> 내용이 없습니다';
+                btnCopy.classList.replace('bg-slate-800', 'bg-red-500');
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    btnCopy.innerHTML = originalText;
+                    btnCopy.classList.replace('bg-red-500', 'bg-slate-800');
+                    lucide.createIcons();
+                }, 1500);
+                return;
+            }
+
+            textInput.select();
+            document.execCommand('copy');
+            
+            // 복사 성공 시 버튼 UI 변경
+            const originalText = btnCopy.innerHTML;
+            btnCopy.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> 복사 완료!';
+            btnCopy.classList.replace('bg-slate-800', 'bg-green-600');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                btnCopy.innerHTML = originalText;
+                btnCopy.classList.replace('bg-green-600', 'bg-slate-800');
+                lucide.createIcons();
+            }, 2000);
+        });
+
+        // 지우기 버튼
+        btnClear.addEventListener('click', () => {
+            textInput.value = '';
+            updateCounts(); // 카운트 초기화
+            textInput.focus();
+        });
+    </script>
+</body>
+</html>
