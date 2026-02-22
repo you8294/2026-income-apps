@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://utildesk.com/sitemap.xml
+Sitemap: https://utildesk.com/sitemap.xml
