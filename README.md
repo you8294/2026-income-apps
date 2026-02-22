@@ -33,7 +33,7 @@
 - **Frontend**: HTML5, Vanilla JavaScript
 - **Styling**: Tailwind CSS (CDN 방식 적용으로 별도 설치 불필요)
 - **Icons**: Lucide Icons (CDN)
-- **Font**: Pretendard (웹 폰트)
+- **Font**: Pretendard (본문), SchoolSafetyNotification (타이틀 웹 폰트)
 - **Hosting**: GitHub Pages (무료 호스팅)
 
 ---
@@ -47,6 +47,7 @@
  ┣ 📜 **salary.html**          # [도구2] 연봉 실수령액 계산기 & 4대보험 가이드
  ┣ 📜 **percent.html**         # [도구3] 퍼센트/마진율/수익률 계산기 & 백분율 가이드
  ┣ 📜 **part-time.html**       # [도구4] 주휴수당 및 퇴직금 계산기 & 단기근로 가이드
+ ┣ 📜 **num-to-korean.html**   # [도구5] 숫자 한글 변환기 & 서류 작성 팁 (NEW)
  ┣ 📜 **tips.html**            # [허브/목록] 모든 유용한 팁 모아보기 (전체 목차)
  ┣ 📜 **cover-letter-tip.html** # [취업 팁] 자소서 소제목 작성법
  ┣ 📜 **interview-tip.html**    # [취업 팁] 면접 1분 자기소개 요령
@@ -67,6 +68,7 @@
  ┣ 📜 **terms.html**             # [정책/안내] 이용약관 및 서비스 면책조항 (NEW)
  ┣ 📜 **sitemap.xml**            # [SEO] 검색엔진 최적화용 사이트맵 (utildesk.com)
  ┣ 📜 **robots.txt**             # [SEO] 검색 로봇 및 사이트맵 접근 제어 설정
+ ┣ 📜 **fix_nav.py**             # [자동화] 전체 HTML 파일 네비게이션 동기화 스크립트 (NEW)
  ┗ 📜 **README.md**              # 프로젝트 설명서 (현재 파일)
 
 ---
