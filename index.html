@@ -73,27 +73,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- 도구 1: 글자수 세기 -->
-                <a href="char-count.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="type" class="w-24 h-24 text-blue-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 border border-blue-100">
-                        <i data-lucide="type" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">실시간
-                        글자수 세기</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">자기소개서, 이력서, 레포트 작성 시 필수! 공백 포함/제외, 단어수,
-                        바이트(Byte)까지 완벽하게 계산합니다.</p>
-                    <span
-                        class="text-blue-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-
-                <!-- 도구 2: 연봉 계산기 -->
+                <!-- 도구 1: 연봉 계산기 -->
                 <a href="salary.html"
                     class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -108,6 +88,26 @@
                     <p class="text-slate-500 text-sm leading-relaxed mb-4">2026년 요율 반영! 비과세액에 따른 정확한 세후 월급을 확인하세요.</p>
                     <span
                         class="text-emerald-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                </a>
+
+                <!-- 도구 2: 주휴수당 계산기 -->
+                <a href="part-time.html"
+                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i data-lucide="clock" class="w-24 h-24 text-rose-500"></i>
+                    </div>
+                    <div
+                        class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center mb-4 border border-rose-100">
+                        <i data-lucide="clock" class="w-6 h-6 text-rose-600"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-rose-600 transition-colors">주휴수당 &
+                        퇴직금 계산</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">단기근로, 알바 필수! 2026 최저시급 기준 내 주휴수당과 퇴직금을 빠르게
+                        계산하세요.</p>
+                    <span
+                        class="text-rose-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
                         시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </span>
                 </a>
@@ -132,25 +132,26 @@
                     </span>
                 </a>
 
-                <!-- 도구 4: 주휴수당 계산기 -->
-                <a href="part-time.html"
+                <!-- 도구 4: 글자수 세기 -->
+                <a href="char-count.html"
                     class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="clock" class="w-24 h-24 text-rose-500"></i>
+                        <i data-lucide="type" class="w-24 h-24 text-blue-500"></i>
                     </div>
                     <div
-                        class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center mb-4 border border-rose-100">
-                        <i data-lucide="clock" class="w-6 h-6 text-rose-600"></i>
+                        class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 border border-blue-100">
+                        <i data-lucide="type" class="w-6 h-6 text-blue-600"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-rose-600 transition-colors">주휴수당 &
-                        퇴직금 계산</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">단기근로, 알바 필수! 2026 최저시급 기준 내 주휴수당과 퇴직금을 빠르게
-                        계산하세요.</p>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">실시간
+                        글자수 세기</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">자기소개서, 이력서, 레포트 작성 시 필수! 공백 포함/제외, 단어수,
+                        바이트(Byte)까지 완벽하게 계산합니다.</p>
                     <span
-                        class="text-rose-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                        class="text-blue-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
                         시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </span>
                 </a>
+
             </div>
         </section>
 
