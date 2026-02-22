@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <!-- Background rounded square (Tailwind blue-600) -->
+    <rect width="100" height="100" rx="22" fill="#2563EB"/>
+    
+    <!-- Screen -->
+    <rect x="18" y="18" width="64" height="24" rx="4" fill="#EFF6FF"/>
+    
+    <!-- Buttons Row 1 -->
+    <rect x="18" y="48" width="18" height="14" rx="3" fill="#BFDBFE"/>
+    <rect x="41" y="48" width="18" height="14" rx="3" fill="#BFDBFE"/>
+    <rect x="64" y="48" width="18" height="14" rx="3" fill="#BFDBFE"/>
+    
+    <!-- Buttons Row 2 -->
+    <rect x="18" y="68" width="18" height="14" rx="3" fill="#BFDBFE"/>
+    <rect x="41" y="68" width="18" height="14" rx="3" fill="#BFDBFE"/>
+    
+    <!-- Equals button (accent Tailwind emerald-400) -->
+    <rect x="64" y="68" width="18" height="14" rx="3" fill="#34D399"/>
+</svg>
