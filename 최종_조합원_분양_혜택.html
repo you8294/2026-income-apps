@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조합원 분양 혜택 안내 — 괴정3가로주택정비사업조합</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 모던 라이트 테마 변수 */
+            --bg-body:     #f4f6fa;       /* 전체 외곽 아주 연한 그레이 */
+            --bg-board:    #ffffff;       /* 보드 배경 순백색 */
+            --text-main:   #0f172a;       /* 가장 짙은 블랙 (텍스트용) */
+            --text-sub:    #475569;       /* 서브 텍스트 (다크 그레이) */
+            --text-muted:  #94a3b8;       /* 은은한 텍스트 */
+            --border-light:#e2e8f0;       /* 얇은 경계선 */
+            --accent-blue: #2563eb;       /* 신뢰감 주는 모던 블루 */
+            --accent-bg:   #eff6ff;
+            --accent-gold: #b48e3a;       /* 차분한 골드 포인트 */
+            --surface:     #f8fafc;       /* 카드 내부, 리스트 배경 */
+            
+            --shadow-sm:   0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md:   0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+            --shadow-lg:   0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
+            --shadow-hover:0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0; padding: 0;
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            background: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        /* ── 전체 래퍼: 16:9 고정 보드 ── */
+        .board-wrap {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: clamp(10px, 2vh, 40px);
+        }
+
+        .board {
+            background: var(--bg-board);
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.02), var(--shadow-lg);
+            border-radius: clamp(12px, 1.5vw, 24px);
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ── 헤더 ── */
+        .board-header {
+            height: clamp(50px, 10vh, 90px);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+            border-bottom: 1px solid var(--border-light);
+            background: #ffffff;
+        }
+
+        .header-badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            font-size: clamp(11px, 1vw, 13px);
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        .board-header h1 {
+            font-size: clamp(20px, 2.2vw, 32px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .board-header h1 span {
+            color: var(--accent-blue);
+        }
+
+        /* ── 메인 콘텐츠 ── */
+        .board-main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr; /* 3단 구획 */
+            gap: clamp(16px, 2vw, 24px);
+            padding: clamp(16px, 2vw, 32px);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        /* ── 모던 카드 ── */
+        .m-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: clamp(10px, 1.2vw, 20px);
+            /* 초기엔 극도로 심플하게 섀도우 없음, hover 시 부드러운 반응 */
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.22,1,0.36,1),
+                        box-shadow 0.25s ease,
+                        border-color 0.25s ease;
+        }
+        .m-card:hover {
+            transform: translateY(-4px);
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 카드 패딩 */
+        .cp { padding: clamp(14px, 1.8vw, 24px); }
+
+        /* 카드 헤더(구분선) */
+        .card-top-line {
+            height: 4px;
+            flex-shrink: 0;
+        }
+        .line-blue { background: var(--accent-blue); }
+        .line-neutral { background: #334155; }
+        .line-green { background: #059669; }
+
+        /* ── 카드 타이틀 ── */
+        .card-title-wrap {
+            display: flex; align-items: center; gap: clamp(8px, 1vw, 12px);
+            margin-bottom: clamp(12px, 1.5vw, 20px);
+        }
+        
+        /* 심플한 미니멀 아이콘 상자 */
+        .icon-box {
+            width: clamp(28px, 3.2vw, 40px);
+            height: clamp(28px, 3.2vw, 40px);
+            border-radius: clamp(6px, 0.8vw, 10px);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-box.blue { background: #eff6ff; color: #2563eb; }
+        .icon-box.neutral { background: #f1f5f9; color: #475569; }
+        .icon-box.green { background: #f0fdf4; color: #16a34a; }
+
+        .icon-box svg { width: clamp(14px, 1.6vw, 20px); height: clamp(14px, 1.6vw, 20px); stroke-width: 2.2; }
+
+        .card-title {
+            font-size: clamp(14px, 1.6vw, 20px);
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        /* ── 분양가 섹션 (토스 스타일 영수증 UI) ── */
+        .price-bill {
+            background: #f8fafc;
+            border-radius: clamp(8px, 1vw, 12px);
+            padding: clamp(12px, 1.5vw, 20px);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1vw, 16px);
+        }
+
+        .price-row {
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .price-label {
+            font-size: clamp(11px, 1.2vw, 14px);
+            font-weight: 600;
+            color: var(--text-sub);
+        }
+        .price-val-gen {
+            font-size: clamp(13px, 1.4vw, 16px);
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .price-val-mem {
+            font-size: clamp(18px, 2.8vw, 36px);
+            font-weight: 900;
+            color: var(--accent-blue);
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .price-diff {
+            margin-top: auto;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: clamp(8px, 1.2vw, 16px);
+            text-align: center;
+            border-radius: clamp(6px, 0.8vw, 10px);
+            font-size: clamp(13px, 1.6vw, 18px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        /* ── 배정 특권 (리스트 스타일) ── */
+        .list-wrap {
+            display: flex; flex-direction: column; gap: clamp(8px, 1vw, 16px);
+            flex: 1; justify-content: center;
+        }
+        .list-item {
+            display: flex; align-items: flex-start; gap: clamp(8px, 1vw, 12px);
+        }
+        .list-dot {
+            margin-top: clamp(2px, 0.3vw, 4px);
+            width: clamp(16px, 1.8vw, 24px); height: clamp(16px, 1.8vw, 24px);
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #64748b;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .list-dot svg { width: clamp(8px, 1vw, 14px); height: clamp(8px, 1vw, 14px); stroke-width: 2.5; }
+        .list-text {
+            font-size: clamp(11px, 1.25vw, 15px);
+            line-height: 1.5;
+            color: var(--text-sub);
+            letter-spacing: -0.01em;
+        }
+        .list-text strong { color: var(--text-main); font-weight: 700; }
+
+        /* ── 무상 옵션 (표/그리드) ── */
+        .opt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(6px, 0.8vw, 12px);
+            flex: 1; align-content: start;
+        }
+        .opt-box {
+            background: #f8fafc;
+            border: 1px solid transparent;
+            border-radius: clamp(6px, 0.8vw, 12px);
+            padding: clamp(10px, 1.2vw, 16px);
+            display: flex; align-items: center; gap: clamp(6px, 0.8vw, 10px);
+            transition: all 0.2s;
+        }
+        .opt-box:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-sm);
+        }
+        .opt-chk {
+            width: clamp(16px, 1.8vw, 22px); height: clamp(16px, 1.8vw, 22px);
+            background: #e2e8f0;
+            color: #1e293b;
+            border-radius: 4px; /* 사각 둥근 체크박스 */
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .opt-chk svg { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); stroke-width:3; }
+        .opt-name {
+            font-size: clamp(11px, 1.2vw, 14px);
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: -0.01em;
+            line-height: 1.35;
+        }
+
+        .balcony-alert {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: clamp(10px, 1.4vw, 18px);
+            border-radius: clamp(6px, 0.8vw, 12px);
+            margin-bottom: clamp(12px, 1.5vw, 20px);
+        }
+        .balcony-alert h4 {
+            margin: 0 0 4px 0;
+            font-size: clamp(12px, 1.4vw, 16px);
+            color: #92400e;
+            font-weight: 800;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .balcony-alert h4 svg { width: 16px; height: 16px; }
+        .balcony-alert p {
+            margin: 0;
+            font-size: clamp(10px, 1.2vw, 14px);
+            color: #b45309;
+            font-weight: 500;
+        }
+
+
+        /* ── 커뮤니티 태그/MOU (컬럼 3) ── */
+        .tag-wrap {
+            display: flex; flex-wrap: wrap; gap: clamp(6px, 0.8vw, 10px);
+        }
+        .tag {
+            background: #f1f5f9;
+            color: #334155;
+            padding: clamp(4px, 0.6vw, 8px) clamp(10px, 1.2vw, 16px);
+            border-radius: 99px;
+            font-size: clamp(10px, 1.2vw, 14px);
+            font-weight: 600;
+        }
+        .mou-card {
+            margin-top: auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: clamp(8px, 1vw, 12px);
+            padding: clamp(12px, 1.5vw, 20px);
+            border-left: 4px solid #059669;
+        }
+        .mou-title {
+            font-size: clamp(12px, 1.4vw, 16px);
+            font-weight: 800;
+            color: #065f46;
+            margin-bottom: 6px;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .mou-desc {
+            font-size: clamp(11px, 1.25vw, 14px);
+            color: #475569;
+            line-height: 1.5;
+        }
+        .mou-desc strong { color: #047857; }
+
+        /* 섹션 구분선 */
+        .hr-line {
+            height: 1px;
+            background: #f1f5f9;
+            margin: clamp(12px, 1.5vw, 24px) 0;
+        }
+
+        /* ── 푸터 ── */
+        .board-footer {
+            height: clamp(35px, 5vh, 50px);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 clamp(16px, 2vw, 32px);
+            border-top: 1px solid var(--border-light);
+            background: #f8fafc;
+        }
+        .footer-note {
+            font-size: clamp(10px, 1.1vw, 13px);
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .footer-brand {
+            font-size: clamp(11px, 1.2vw, 14px);
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+
+        /* ── 홈 네비게이션 ── */
+        .home-nav {
+            position: fixed;
+            top: 16px; left: 16px;
+            z-index: 9999;
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 16px 8px 12px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 13px; font-weight: 600;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+        }
+        .home-nav:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        .home-nav svg { flex-shrink: 0; color: #64748b; }
+
+        /* ──────────────────────────────────────────
+           반응형: 태블릿 이하 → 세로 스크롤 레이아웃
+           ────────────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .board-wrap { align-items: flex-start; min-height: 100vh; padding: 0; }
+            .board {
+                aspect-ratio: auto;
+                height: auto;
+                max-height: none; max-width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+                overflow-y: auto; /* 잘림 방지 (스크롤 허용) */
+            }
+            .board-main {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding: 20px 16px;
+                gap: 16px;
+                overflow: visible; /* 내부 콘텐츠 잘림 방지 */
+            }
+            .m-card { height: auto; min-height: fit-content; }
+            .board-footer { height: auto; padding: 16px; flex-direction: column; gap: 8px; text-align: center; }
+            .board-footer > div { flex-direction: column; gap: 6px; align-items: center !important; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            .board-header { padding: 0 16px; }
+            .home-nav {
+                top: auto; bottom: 16px; left: 50%;
+                transform: translateX(-50%);
+            }
+            .home-nav:hover { transform: translateX(-50%) translateY(-1px); }
+        }
+        @media print { .home-nav { display: none !important; } }
+    </style>
+</head>
+<body>
+
+<!-- 홈 메인으로 돌아가기 -->
+<a class="home-nav" href="index.html">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    메인으로
+</a>
+
+<div class="board-wrap">
+<div class="board">
+
+    <!-- ── 헤더 ── -->
+    <header class="board-header">
+        <div class="header-badge">조합원 전용</div>
+        <h1>괴정3가로주택정비 <span>분양 혜택</span></h1>
+    </header>
+
+    <!-- ── 메인 콘텐츠 ── -->
+    <main class="board-main">
+
+        <!-- ═══ 1. 분양가 및 배정 ═══ -->
+        <div class="flex flex-col gap-[inherit]" style="gap: inherit;">
+            <!-- 분양가 특권 -->
+            <div class="m-card">
+                <div class="card-top-line line-blue"></div>
+                <div class="cp flex flex-col h-full">
+                    <div class="card-title-wrap">
+                        <div class="icon-box blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="15" x2="8.01" y2="15"/><line x1="12" y1="15" x2="16" y2="15"/></svg>
+                        </div>
+                        <h2 class="card-title">분양가 프리미엄</h2>
+                    </div>
+
+                    <div class="price-bill">
+                        <div class="price-row">
+                            <span class="price-label">일반 분양가 (예상)</span>
+                            <span class="price-val-gen">평당 2,000만 원</span>
+                        </div>
+                        <div class="hr-line" style="margin: 8px 0; background-color:#e2e8f0;"></div>
+                        <div class="price-row" style="align-items: center;">
+                            <span class="price-label" style="color:var(--text-main); font-weight:700;">조합원 분양가</span>
+                            <span class="price-val-mem">1,500<span style="font-size:0.55em; font-weight:700; margin-left:2px;">만원/평</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-diff">
+                        평당 약 500만 원 절감 효과
+                    </div>
+                </div>
+            </div>
+
+            <!-- 우선 배정 -->
+            <div class="m-card" style="flex: 1;">
+                <div class="card-top-line line-neutral"></div>
+                <div class="cp flex flex-col h-full">
+                    <div class="card-title-wrap">
+                        <div class="icon-box neutral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <h2 class="card-title">로열동·호수 최우선 배정</h2>
+                    </div>
+
+                    <div class="list-wrap">
+                        <div class="list-item">
+                            <div class="list-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text">가장 인기 있는 <strong>프리미엄 동과 층수</strong>를 조합원이 먼저 선점합니다.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text">권리가액을 기준으로 <strong>공정하고 투명한 배정 방식을</strong> 적용합니다.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text">좋은 매물 확보를 통해 향후 <strong>높은 환금성과 자산가치 상승</strong>이 기대됩니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ 2. 무상 옵션 ═══ -->
+        <div class="m-card h-full">
+            <div class="card-top-line line-neutral"></div>
+            <div class="cp flex flex-col h-full">
+                <div class="card-title-wrap">
+                    <div class="icon-box neutral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+                    </div>
+                    <h2 class="card-title">특별 무상 옵션</h2>
+                </div>
+
+                <!-- 발코니 특화 -->
+                <div class="balcony-alert">
+                    <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> 건축 및 마감 특화</h4>
+                    <p>전 세대 <strong>발코니 무상 확장</strong> 및 단열과 에너지 절약에 탁월한 <strong>22mm 복층 로이(Low-E) 유리</strong> 시공</p>
+                </div>
+
+                <div class="price-label" style="display:block; margin-bottom: 12px; font-size:13px; color:#1e293b;">스마트 홈 가전 6종 풀옵션</div>
+
+                <!-- 가전 옵션 리스트 (6개) -->
+                <div class="opt-grid">
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">시스템 에어컨 (2대)</span>
+                    </div>
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">양문형 냉장고 (815L)</span>
+                    </div>
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">빌트인 김치냉장고</span>
+                    </div>
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">드럼 세탁기 (19kg)</span>
+                    </div>
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">전기 건조기 (16kg)</span>
+                    </div>
+                    <div class="opt-box">
+                        <div class="opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <span class="opt-name">65인치 UHD TV</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ═══ 3. 단지 설계 & 거주 환경 ═══ -->
+        <div class="flex flex-col gap-[inherit]" style="gap: inherit;">
+            <div class="m-card">
+                <div class="card-top-line line-green"></div>
+                <div class="cp flex flex-col h-full">
+                    <div class="card-title-wrap">
+                        <div class="icon-box green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                        </div>
+                        <h2 class="card-title">의료 및 커뮤니티 특화</h2>
+                    </div>
+
+                    <div class="tag-wrap">
+                        <span class="tag">피트니스 센터</span>
+                        <span class="tag">어린이 공원</span>
+                        <span class="tag">단지 내 노인정</span>
+                        <span class="tag">LX 라운지(요가)</span>
+                    </div>
+
+                    <div class="mou-card">
+                        <div class="mou-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            큐병원 MOU 체결 (의료 특화)
+                        </div>
+                        <div class="mou-desc">
+                            단지 내 보건실을 운영하여 전문 간호사가 상주하며 <strong>입주민 전용 헬스케어 서비스</strong>를 제공할 계획입니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-card" style="flex: 1;">
+                <div class="card-top-line line-neutral"></div>
+                <div class="cp flex flex-col h-full">
+                    <div class="card-title-wrap">
+                        <div class="icon-box neutral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h2 class="card-title">디자인 특화 설계</h2>
+                    </div>
+
+                    <div class="list-wrap">
+                        <div class="list-item">
+                            <div class="list-dot" style="background:#fff; border:1px solid #cbd5e1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text"><strong>단지 주변 평지 산책로</strong><br>안전하고 쾌적하게 걷거나 달릴 수 있는 코스</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-dot" style="background:#fff; border:1px solid #cbd5e1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text"><strong>라운드형 경관 벤치</strong><br>주변 경관과 어우러지는 휴식 공간 제공</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-dot" style="background:#fff; border:1px solid #cbd5e1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="list-text"><strong>탁 트인 전망대 (4층 높이)</strong><br>입주민을 위한 지면 위 파노라마 조망 권역</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ── 푸터 ── -->
+    <footer class="board-footer" style="padding: 12px clamp(16px, 2vw, 32px); align-items: flex-start; flex-direction: column; justify-content: center; gap: 4px; height: auto;">
+        <div style="display:flex; width: 100%; justify-content: space-between; align-items: center;">
+            <div class="footer-note">※ 본 페이지 내의 혜택 및 설계 내역은 인허가 진행 과정에 따라 일부 변경될 수 있습니다.</div>
+            <div class="footer-brand">&copy; 2026 괴정3가로주택정비사업조합</div>
+        </div>
+        <div style="font-size: clamp(9px, 1vw, 11px); color: #94a3b8; width: 100%; display: flex; justify-content: space-between;">
+            <span>※ 본 시뮬레이션 자료의 무단 사용, 임의 수정, 재배포를 금합니다.</span>
+            <span>만든이: <strong>artistRDG</strong></span>
+        </div>
+    </footer>
+
+</div>
+</div>
+
+</body>
+</html>

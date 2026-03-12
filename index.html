@@ -1,298 +1,580 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>만능계산기 - 금융 및 취업 필수 계산기 모음</title>
-    <!-- SEO를 위한 메타 태그 -->
-    <meta name="description" content="연봉, 주휴수당, 퍼센트, 글자수 등 생활에 필요한 모든 계산을 로그인 없이 무료로 바로 이용하세요.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="만능계산기 - 금융 및 취업 필수 계산기 모음">
-    <meta property="og:description" content="연봉, 주휴수당, 퍼센트, 글자수 등 생활에 필요한 모든 계산을 로그인 없이 무료로 바로 이용하세요.">
-    <meta property="og:url" content="https://utildesk.com/">
-    <meta property="og:image" content="https://utildesk.com/favicon.svg">
-    <meta name="naver-site-verification" content="c20cd9c1eaef7425e288d9aa27d876931a742b60" />
-    <meta name="google-site-verification" content="8mw5J_by1WZpZBbtd9IkFZXl74TNhj3X8Ks36wsgtqY" />
-    <!-- Tailwind CSS -->
-    <!-- 파비콘 -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 아이콘 -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>괴정3가로주택정비사업조합</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════
+       CSS Variables & Reset
+       ══════════════════════════════════════ */
+    :root {
+      --bg: #0b0f1a;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2234;
+      --surface: #151c2e;
+      --surface-raised: #1a2340;
+      --border: #1e293b;
+      --border-light: #2a3654;
+      --text: #e8ecf4;
+      --text-muted: #7a8ba8;
+      --text-dim: #4a5872;
+      --accent: #6b8afd;
+      --accent-soft: rgba(107, 138, 253, 0.12);
+      --accent-glow: rgba(107, 138, 253, 0.25);
+      --progress-track: #1a2340;
+      --progress-fill: #5b7cfa;
+      --card-icon-1: #5b7cfa;
+      --card-icon-2: #6b8afd;
+      --font: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
 
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: #f8fafc;
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        @font-face {
-            font-family: 'SchoolSafetyNotification';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');
-            font-weight: 400;
-            font-display: swap;
-        }
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
 
-        @font-face {
-            font-family: 'SchoolSafetyNotification';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');
-            font-weight: 700;
-            font-display: swap;
-        }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .font-hero {
-            font-family: 'SchoolSafetyNotification', sans-serif;
-            font-weight: 700;
-        }
+    /* ══════════════════════════════════════
+       Subtle Background Texture
+       ══════════════════════════════════════ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(91, 124, 250, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 20% 100%, rgba(107, 138, 253, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .gradient-text {
-            background: linear-gradient(to right, #2563eb, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    /* ══════════════════════════════════════
+       Layout Shell
+       ══════════════════════════════════════ */
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6898048106664229"
-     crossorigin="anonymous"></script>
-    <link rel="canonical" href="https://utildesk.com/">
+    /* ══════════════════════════════════════
+       Top Bar
+       ══════════════════════════════════════ */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(91, 124, 250, 0.10);
+      border: 1px solid rgba(91, 124, 250, 0.20);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+
+    .settings-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .settings-btn:hover {
+      border-color: var(--border-light);
+      color: var(--text-muted);
+    }
+
+    /* ══════════════════════════════════════
+       Hero Section
+       ══════════════════════════════════════ */
+    .hero {
+      text-align: center;
+      padding: 48px 0 20px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      color: #f0f2f7;
+    }
+
+    .hero-sub {
+      margin-top: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: -0.01em;
+    }
+
+    /* ══════════════════════════════════════
+       Countdown Panel
+       ══════════════════════════════════════ */
+    .countdown-panel {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 32px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-panel::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(91, 124, 250, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .countdown-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .countdown-number {
+      margin-top: 20px;
+      font-size: clamp(120px, 20vw, 200px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: rgba(215, 222, 238, 0.42);
+      position: relative;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .countdown-unit {
+      margin-top: 8px;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    /* ══════════════════════════════════════
+       Progress Bar
+       ══════════════════════════════════════ */
+    .progress-section {
+      margin-top: auto;
+      padding: 24px 0 0;
+    }
+
+    .progress-wrap {
+      padding: 0 4px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .progress-date {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .progress-pct {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      border-radius: 99px;
+      background: var(--progress-track);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--progress-fill), var(--accent));
+      transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow), 0 0 20px rgba(107, 138, 253, 0.15);
+    }
+
+    /* ══════════════════════════════════════
+       Navigation Cards
+       ══════════════════════════════════════ */
+    .nav-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      padding-bottom: 24px;
+    }
+
+    .nav-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      opacity: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(91, 124, 250, 0.06) 0%, transparent 70%);
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(91, 124, 250, 0.08);
+    }
+
+    .nav-card:hover::before {
+      opacity: 1;
+    }
+
+    .nav-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-card:first-child .nav-card-icon {
+      background: rgba(91, 124, 250, 0.12);
+      color: var(--card-icon-1);
+    }
+
+    .nav-card:last-child .nav-card-icon {
+      background: rgba(107, 138, 253, 0.12);
+      color: var(--card-icon-2);
+    }
+
+    .nav-card-body {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-card-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #f0f2f7;
+    }
+
+    .nav-card-desc {
+      margin-top: 3px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-card-arrow {
+      flex-shrink: 0;
+      color: var(--text-dim);
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-card:hover .nav-card-arrow {
+      color: var(--text-muted);
+      transform: translateX(3px);
+    }
+
+    /* ══════════════════════════════════════
+       Footer
+       ══════════════════════════════════════ */
+    .site-footer {
+      text-align: center;
+      padding: 16px 24px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    .footer-copy {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-dim);
+      opacity: 0.7;
+    }
+
+    /* ══════════════════════════════════════
+       Entrance Animations
+       ══════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes countPulse {
+      0% { opacity: 0; transform: scale(0.92); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .topbar { animation: fadeIn 0.6s ease both; }
+    .hero { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
+    .countdown-panel { animation: fadeUp 0.7s ease both; animation-delay: 0.2s; }
+    .countdown-number { animation: countPulse 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: 0.5s; }
+    .countdown-unit { animation: fadeIn 0.6s ease both; animation-delay: 0.8s; }
+    .progress-section { animation: fadeUp 0.6s ease both; animation-delay: 0.4s; }
+    .nav-cards .nav-card:nth-child(1) { animation: fadeUp 0.6s ease both; animation-delay: 0.5s; }
+    .nav-cards .nav-card:nth-child(2) { animation: fadeUp 0.6s ease both; animation-delay: 0.6s; }
+
+    /* ══════════════════════════════════════
+       Responsive
+       ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .shell { padding: 0 16px; }
+      .hero { padding: 36px 0 16px; }
+      .hero-title { font-size: 22px; }
+      .hero-sub { font-size: 13.5px; }
+      .countdown-panel { padding: 36px 20px 32px; border-radius: 20px; }
+      .countdown-number { font-size: 100px; }
+      .countdown-unit { font-size: 20px; }
+      .nav-cards { grid-template-columns: 1fr; gap: 12px; }
+      .nav-card { border-radius: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 20px; }
+      .countdown-number { font-size: 80px; }
+      .countdown-panel { padding: 28px 16px 26px; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="text-slate-800 antialiased">
+  <div class="shell">
 
-    <!-- 상단 헤더 -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <p class="text-xl font-bold text-blue-600 m-0">
-                <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <i data-lucide="layers" class="w-6 h-6"></i>
-                    만능계산기
-                </a>
-            </p>
-            <nav class="hidden sm:block">
-                <ul class="flex space-x-6 text-sm font-medium text-slate-600">
-                    <li><a href="index.html" class="text-blue-600 font-bold">홈</a></li>
-                    <li><a href="salary.html" class="hover:text-blue-600 transition-colors">연봉 계산기</a></li>
-                    <li><a href="part-time.html" class="hover:text-blue-600 transition-colors">주휴수당 계산기</a></li>
-                    <li><a href="percent.html" class="hover:text-blue-600 transition-colors">퍼센트 계산기</a></li>
-                    <li><a href="char-count.html" class="hover:text-blue-600 transition-colors">글자수 세기</a></li>
-                    <li><a href="num-to-korean.html" class="hover:text-blue-600 transition-colors">숫자 한글 변환기</a></li>
-                    <li><a href="tips.html" class="hover:text-blue-600 transition-colors">유용한 팁</a></li>
-                    <li><a href="about.html" class="hover:text-blue-600 transition-colors">소개</a></li>
-                </ul>
-            </nav>
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="badge">괴정3가로주택정비사업조합</div>
+      <button class="settings-btn" aria-label="설정" onclick="void(0)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="hero-title">조합원 분양신청 접수 마감</h1>
+      <p class="hero-sub">2026년 5월 7일(목) 오후 5시까지 · 마감 전 반드시 신청하세요</p>
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown-panel">
+      <div class="countdown-label">마감일까지 남은 날</div>
+      <div class="countdown-number" id="dday-number">--</div>
+      <div class="countdown-unit">일 남음</div>
+
+      <!-- Progress -->
+      <div class="progress-section">
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span class="progress-date">2월 25일 접수 시작</span>
+            <span class="progress-pct" id="progress-pct">--%</span>
+            <span class="progress-date">5월 7일 마감</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
 
-    <main class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Navigation Cards -->
+    <div class="nav-cards">
 
-        <!-- 핵심 유틸리티 (Tools) 그리드 — 최상단 배치 -->
-        <section class="mb-10">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-2xl font-bold flex items-center gap-2 text-slate-800">
-                    <i data-lucide="hammer" class="w-6 h-6 text-blue-500"></i> 핵심 도구 모음
-                </h3>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- 도구 1: 연봉 계산기 -->
-                <a href="salary.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="coins" class="w-24 h-24 text-emerald-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-4 border border-emerald-100">
-                        <i data-lucide="coins" class="w-6 h-6 text-emerald-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">연봉
-                        실수령액 계산</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">2026년 요율 반영! 비과세액에 따른 정확한 세후 월급을 확인하세요.</p>
-                    <span
-                        class="text-emerald-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-
-                <!-- 도구 2: 주휴수당 계산기 -->
-                <a href="part-time.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="clock" class="w-24 h-24 text-rose-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center mb-4 border border-rose-100">
-                        <i data-lucide="clock" class="w-6 h-6 text-rose-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-rose-600 transition-colors">주휴수당 &
-                        퇴직금 계산</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">단기근로, 알바 필수! 2026 최저시급 기준 내 주휴수당과 퇴직금을 빠르게
-                        계산하세요.</p>
-                    <span
-                        class="text-rose-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-
-                <!-- 도구 3: 퍼센트 계산기 -->
-                <a href="percent.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="percent" class="w-24 h-24 text-purple-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-4 border border-purple-100">
-                        <i data-lucide="percent" class="w-6 h-6 text-purple-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">
-                        퍼센트/마진 계산기</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">할인율, 증감률, 수익률, 스마트스토어 마진율 등 복잡한 비율 계산을 가장 쉽고
-                        직관적으로 해결합니다.</p>
-                    <span
-                        class="text-purple-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-
-                <!-- 도구 4: 글자수 세기 -->
-                <a href="char-count.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="type" class="w-24 h-24 text-blue-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 border border-blue-100">
-                        <i data-lucide="type" class="w-6 h-6 text-blue-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">실시간
-                        글자수 세기</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">자기소개서, 이력서, 레포트 작성 시 필수! 공백 포함/제외, 단어수,
-                        바이트(Byte)까지 완벽하게 계산합니다.</p>
-                    <span
-                        class="text-blue-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-
-                <!-- 도구 5: 숫자 한글 변환기 -->
-                <a href="num-to-korean.html"
-                    class="tool-card block bg-white rounded-2xl p-6 border border-slate-100 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <i data-lucide="calculator" class="w-24 h-24 text-teal-500"></i>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-4 border border-teal-100">
-                        <i data-lucide="calculator" class="w-6 h-6 text-teal-600"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-teal-600 transition-colors">숫자 ↔
-                        한글 변환기</h4>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-4">계좌 이체, 영수증, 계약서 작성 필수! 복잡한 숫자 금액을 정확한 콤마와 한글로
-                        변환합니다.</p>
-                    <span
-                        class="text-teal-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                        시작하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
-            </div>
-        </section>
-
-        <!-- 메인 히어로 (Hero) 섹션 — 도구 모음 아래 배치 -->
-        <section class="text-center mb-12 py-8 bg-blue-50 rounded-2xl border border-blue-100">
-            <div
-                class="inline-block bg-white text-blue-600 font-semibold px-4 py-1.5 rounded-full text-sm mb-4 border border-blue-100 shadow-sm">
-                🚀 일상을 스마트하게 바꾸는
-            </div>
-            <h2 class="text-4xl md:text-5xl tracking-tight text-black mb-4 leading-tight font-hero drop-shadow-sm">
-                모든 순간의 계산기
-            </h2>
-            <p class="text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
-                연봉, 주휴수당, 퍼센트, 글자수, 숫자 한글 변환까지. 생활에 꼭 필요한 계산이라면 무엇이든, 설치나 로그인 없이 바로 시작하세요.
-            </p>
-        </section>
-        <!-- 지식/팁 (Articles) 그리드 -->
-        <section class="mb-12">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-2xl font-bold flex items-center gap-2 text-slate-800">
-                    <i data-lucide="book-open" class="w-6 h-6 text-indigo-500"></i> 추천 금융·취업 꿀팁
-                </h3>
-                <a href="tips.html"
-                    class="text-sm font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1">전체보기 <i
-                        data-lucide="chevron-right" class="w-4 h-4"></i></a>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="tax-refund-tip.html"
-                    class="bg-white border border-slate-100 p-5 rounded-2xl hover:border-slate-300 transition-colors group">
-                    <span
-                        class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-md mb-3 inline-block">세금/절세</span>
-                    <h4 class="font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                        "내 피 같은 3.3% 돌려받자!" 알바생·프리랜서 5월 종합소득세 환급 가이드</h4>
-                </a>
-
-                <a href="self-introduction-tip.html"
-                    class="bg-white border border-slate-100 p-5 rounded-2xl hover:border-slate-300 transition-colors group">
-                    <span
-                        class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md mb-3 inline-block">취업/자소서</span>
-                    <h4 class="font-bold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors line-clamp-2">
-                        면접관을 홀리는 마법의 공식: S.T.A.R 기법 100% 활용 가이드</h4>
-                </a>
-
-                <a href="budget-planning-tip.html"
-                    class="bg-white border border-slate-100 p-5 rounded-2xl hover:border-slate-300 transition-colors group">
-                    <span
-                        class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md mb-3 inline-block">재테크/자산관리</span>
-                    <h4
-                        class="font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors line-clamp-2">
-                        하버드 극찬 통장 쪼개기 '50/30/20 예산 법칙'</h4>
-                </a>
-
-                <a href="etf-vs-fund-tip.html"
-                    class="bg-white border border-slate-100 p-5 rounded-2xl hover:border-slate-300 transition-colors group">
-                    <span
-                        class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md mb-3 inline-block">투자/주식
-                        상식</span>
-                    <h4 class="font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors line-clamp-2">
-                        워런 버핏의 투자법! 인덱스 펀드 vs ETF 완벽 비교</h4>
-                </a>
-            </div>
-        </section>
+      <!-- Card 1: 분담금 계산기 -->
+      <a class="nav-card" href="최종_괴정3_글자최대_출력최적화.html">
+        <div class="nav-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="10" x2="12" y2="10"/>
+            <line x1="8" y1="14" x2="16" y2="14"/>
+            <line x1="8" y1="18" x2="13" y2="18"/>
+          </svg>
         </div>
-
-    </main>
-
-    <!-- 푸터 -->
-    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <h2 class="text-lg font-bold text-slate-800 flex items-center justify-center gap-2 mb-2">
-                <i data-lucide="layers" class="w-5 h-5 text-blue-600"></i> 만능계산기
-            </h2>
-            <p class="text-slate-500 text-sm mb-4">일상을 더 효율적으로 만드는 무료 웹 기반 툴</p>
-            <div class="mt-6 flex justify-center gap-4 text-xs font-medium text-slate-500">
-                <a href="privacy.html"
-                    class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">개인정보처리방침</a>
-                <span>|</span>
-                <a href="terms.html"
-                    class="text-slate-800/80 hover:text-slate-900 hover:underline transition-colors font-bold">이용약관</a>
-            </div>
-            <div class="mt-4 text-xs text-slate-500">
-                <span class="font-semibold">운영자:</span> artistrdg | <span class="font-semibold">이메일:</span> <a
-                    href="mailto:synonym.crowns.0f@icloud.com" class="hover:underline">synonym.crowns.0f@icloud.com</a>
-            </div>
-            <p class="text-slate-400 text-xs mt-4">© 2026 만능계산기. All rights reserved.</p>
+        <div class="nav-card-body">
+          <div class="nav-card-title">분담금 계산기 (출력용)</div>
+          <div class="nav-card-desc">감정가·비례율로 예상 분담금 즉시 조회</div>
         </div>
-    </footer>
+        <div class="nav-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </a>
 
-    <!-- 자바스크립트 로직 -->
-    <script>
-        // Lucide 아이콘 렌더링
-        lucide.createIcons();
-    </script>
+      <!-- Card 2: 무상 옵션 및 혜택 안내 -->
+      <a class="nav-card" href="최종_조합원_분양_혜택.html">
+        <div class="nav-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
+            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+          </svg>
+        </div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">무상 옵션 및 혜택 안내</div>
+          <div class="nav-card-desc">조합원 전용 프리미엄 혜택 한눈에 확인</div>
+        </div>
+        <div class="nav-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-note">본 페이지는 조합원 이해를 돕기 위한 참고용이며, 실제 결과와 다를 수 있습니다.</div>
+    <div class="footer-copy">
+      만든이: artistRDG<br>
+      ※ 본 시뮬레이션 자료의 무단 사용, 임의 수정, 재배포를 금합니다.<br>
+      &copy; 2026 괴정3가로주택정비사업조합
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // ── D-Day 계산 ──
+      const DEADLINE = new Date('2026-05-07T17:00:00+09:00');
+      const START    = new Date('2026-02-25T00:00:00+09:00');
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = DEADLINE - now;
+        const daysLeft = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+
+        document.getElementById('dday-number').textContent = daysLeft;
+
+        // Progress
+        const totalSpan = DEADLINE - START;
+        const elapsed = now - START;
+        const pct = Math.max(0, Math.min(100, (elapsed / totalSpan) * 100));
+        const rounded = Math.round(pct);
+
+        document.getElementById('progress-pct').textContent = rounded + '%';
+        document.getElementById('progress-fill').style.width = rounded + '%';
+      }
+
+      updateCountdown();
+      // 매 분마다 갱신 (일 단위이므로 빈번할 필요 없음)
+      setInterval(updateCountdown, 60000);
+    })();
+  </script>
+
 </body>
-
 </html>

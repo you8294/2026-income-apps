@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>괴정3가로주택정비조합</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --line: #e5e7eb;
+      --line-strong: #d1d5db;
+      --text: #111827;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --green: #047857;
+      --green-soft: #ecfdf5;
+      --amber: #b45309;
+      --amber-soft: #fffbeb;
+      --ink-soft: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    .shell { max-width: 1480px; margin: 0 auto; padding: 22px 24px 56px; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .panel-soft {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .section-title {
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .helper { color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #374151;
+    }
+    .money-input, .basic-input {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .money-input { text-align: right; }
+    .basic-input:focus, .money-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.08);
+    }
+    .action-btn {
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .action-btn:hover { border-color: #9ca3af; }
+    .action-btn.primary {
+      background: #111827;
+      color: #fff;
+      border-color: #111827;
+    }
+    .type-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .type-btn:hover { border-color: #9ca3af; }
+    .type-btn.active {
+      border-color: #7fb0ff;
+      background: #dceaff;
+    }
+    .summary-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      min-height: 156px;
+    }
+    .summary-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .summary-title {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .summary-value {
+      margin-top: 18px;
+      font-size: 34px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      word-break: keep-all;
+    }
+    .summary-desc {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .answer-blue { background: #fff; border-color: #dbeafe; }
+    .answer-amber { background: #fff; border-color: #fde68a; }
+    .answer-green { background: #fff; border-color: #bbf7d0; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pill.current {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .inline-note-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #334155;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
+    }
+    .inline-note-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .inline-note-btn.active {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+    .remark-cell {
+      min-width: 230px;
+    }
+    .felt-gain-box {
+      margin-top: 10px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+    .felt-gain-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      color: #64748b;
+    }
+    .felt-gain-value {
+      margin-top: 4px;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #0f172a;
+    }
+    .felt-gain-desc {
+      margin-top: 6px;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #64748b;
+      word-break: keep-all;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+    table.clean-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .clean-table thead th {
+      text-align: left;
+      padding: 14px 16px;
+      background: #f8fafc;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 800;
+      border-bottom: 1px solid var(--line);
+    }
+    .clean-table tbody tr {
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .clean-table tbody tr:hover { background: #f7f9fc; }
+    .clean-table tbody tr.selected { background: #e9f2ff; }
+    .clean-table tbody tr.selected td:first-child { box-shadow: inset 4px 0 0 0 #1d4ed8; }
+    .clean-table tbody td {
+      padding: 18px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    .clean-table tbody tr:last-child td { border-bottom: 0; }
+    .type-name { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .mini { font-size: 12px; color: var(--muted); }
+    .pos { color: var(--amber); }
+    .neg { color: var(--green); }
+    .gain { color: var(--green); }
+    details summary {
+      list-style: none;
+      cursor: pointer;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    .divider { height: 1px; background: var(--line); margin: 20px 0; }
+    .input-readout { margin-top: 10px; font-size: 13px; line-height: 1.6; color: #475569; }
+    .input-readout strong { color: #111827; font-weight: 700; }
+    .print-only { display: none; }
+    .print-fit { --print-scale: 1; }
+    .print-meta { gap: 16px; align-items: flex-start; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #d1d5db; }
+    .print-meta-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #111827; }
+    .print-meta-sub { margin-top: 4px; font-size: 12px; color: #475569; }
+    @page { size: A4 portrait; margin: 4mm 5mm; }
+    @media print {
+      html, body { width: 210mm; height: 297mm; background: #ffffff; }
+      body { margin: 0; }
+      .no-print { display: none !important; }
+      .print-only { display: flex !important; }
+      body * { visibility: hidden; }
+      .print-section, .print-section * { visibility: visible; }
+      .print-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: 0 !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+      }
+      .print-fit {
+        transform: scale(var(--print-scale, 1));
+        transform-origin: top left;
+        width: calc(100% / var(--print-scale, 1));
+      }
+
+      /* ── 상단 헤더: 콤팩트하게 압축 ── */
+      .print-meta { margin-bottom: 4px; padding-bottom: 4px; }
+      .print-meta-title { font-size: 17px; font-weight: 800; }
+      .print-meta-sub { margin-top: 1px; font-size: 10pt; line-height: 1.3; }
+      .section-title { font-size: 18px !important; font-weight: 800 !important; }
+      .helper { font-size: 0pt !important; line-height: 0 !important; margin: 0 !important; padding: 0 !important; height: 0 !important; overflow: hidden !important; }
+
+      /* ── 기준가 안내박스: 인쇄 시 축소 ── */
+      .print-section .rounded-xl { padding: 4px 8px !important; margin-top: 4px !important; font-size: 9.5pt !important; }
+      .print-section .rounded-xl .text-xs { font-size: 8pt !important; }
+      .print-section .flex.flex-wrap.gap-x-4 { margin-top: 3px !important; font-size: 10pt !important; }
+      .print-section .mt-5.table-wrap { margin-top: 8px !important; }
+
+      /* ── 테이블 전체 ── */
+      .table-wrap { overflow: visible; border-radius: 0 !important; }
+      table.clean-table { min-width: 0; width: 100%; table-layout: fixed; font-size: 13pt; }
+
+      /* ── 테이블 헤더 ── */
+      .clean-table thead th {
+        padding: 8px 6px;
+        background: #f0f4f8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color: #1e293b;
+        font-size: 11pt;
+        font-weight: 800;
+        border-bottom: 2px solid #cbd5e1;
+      }
+
+      /* ── 테이블 셀 ── */
+      .clean-table tbody td {
+        padding: 10px 6px;
+        word-break: keep-all;
+        line-height: 1.35;
+        vertical-align: middle;
+      }
+      .clean-table tbody tr.selected { background: #e8f0fe !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .clean-table tbody tr.selected td:first-child { box-shadow: inset 5px 0 0 0 #1d4ed8; }
+
+      /* ── 타입명 (59A, 84 등) ── */
+      .type-name { font-size: 17px !important; font-weight: 800 !important; }
+      .mini { font-size: 10pt !important; line-height: 1.3; color: #475569 !important; }
+
+      /* ══════════════════════════════════════
+         핵심: 모든 금액 숫자를 최대한 크게
+         ══════════════════════════════════════ */
+      .clean-table tbody td .font-extrabold {
+        font-size: 14pt !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.02em;
+      }
+      .clean-table tbody td .gain {
+        font-size: 14pt !important;
+        font-weight: 800 !important;
+      }
+      .clean-table tbody td .pos {
+        font-size: 14pt !important;
+      }
+      .clean-table tbody td .neg {
+        font-size: 14pt !important;
+      }
+
+      /* ── 조합원 혜택 열 ── */
+      .remark-cell { min-width: 0; width: 30%; }
+      .felt-gain-box {
+        margin-top: 3px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        border: 1.5px solid #cbd5e1;
+      }
+      .felt-gain-label {
+        font-size: 10.5pt;
+        font-weight: 800;
+        color: #475569;
+      }
+      .felt-gain-value {
+        margin-top: 3px;
+        font-size: 15pt !important;
+        font-weight: 800 !important;
+        color: #0f172a;
+      }
+      .felt-gain-desc {
+        margin-top: 4px;
+        font-size: 10pt;
+        line-height: 1.35;
+        color: #475569;
+      }
+      .felt-gain-box .text-sm {
+        font-size: 13pt !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
+      }
+      .felt-gain-box .mt-2 { margin-top: 6px; }
+
+      /* ── 행 잘림 방지 ── */
+      .clean-table tbody tr, .clean-table tbody td, .clean-table thead th { break-inside: avoid; page-break-inside: avoid; }
+    }
+    @media (max-width: 1024px) {
+      .layout { display: block; }
+      .side { position: static !important; }
+    }
+    @media (max-width: 768px) {
+      .shell { padding: 18px 12px 40px; }
+      .summary-value { font-size: 28px; }
+      .section-title { font-size: 20px; }
+      .money-input, .basic-input { font-size: 16px; }
+    }
+  
+    .site-footer {
+      margin-top: 28px;
+      padding: 16px 0 8px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #6b7280;
+    }
+    .site-footer .creator {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+    .site-footer .copyright {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    @media print {
+      .site-footer {
+        margin-top: 6px;
+        padding-top: 4px;
+        color: #888;
+      }
+      .site-footer .creator { font-size: 8pt; }
+      .site-footer .copyright { font-size: 7pt; }
+    }
+
+    /* ── 홈 네비게이션 ── */
+    .home-nav {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px 8px 12px;
+      background: #111827;
+      border: 1px solid #2a3654;
+      border-radius: 999px;
+      color: #e8ecf4;
+      text-decoration: none;
+      font-family: 'Noto Sans KR', -apple-system, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+    }
+    .home-nav:hover {
+      background: #1a2340;
+      border-color: #3b4f7a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+    }
+    .home-nav svg { flex-shrink: 0; }
+    @media print { .home-nav { display: none !important; } }
+  </style>
+</head>
+<body>
+  <a class="home-nav" href="index.html">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    메인으로
+  </a>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState } = React;
+
+    const STORAGE_KEY = "goejeong3_member_easy_v617";
+
+    const DEFAULT_TYPES = {
+      type59A: { id: "type59A", name: "59A", supplyPy: 25.03, supplyM2: 82.750, households: 51, member: 375478125, general: 500600000 },
+      type59B: { id: "type59B", name: "59B", supplyPy: 24.97, supplyM2: 82.509, households: 68, member: 374384588, general: 499400000 },
+      type59C: { id: "type59C", name: "59C", supplyPy: 25.18, supplyM2: 83.230, households: 18, member: 377660663, general: 503600000 },
+      type84: { id: "type84", name: "84", supplyPy: 34.78, supplyM2: 114.959, households: 92, member: 521626463, general: 695600000 },
+      type139: { id: "type139", name: "139", supplyPy: 57.58, supplyM2: 190.368, households: 1, member: 863790263, general: 1151600000 }
+    };
+
+    const DEFAULT_BENEFITS = [
+      { id: "balcony", label: "발코니 무상확장 + 복층 로이 유리", amount: 0, checked: false },
+      { id: "aircon", label: "시스템 에어컨(2개소)", amount: 0, checked: false },
+      { id: "fridge", label: "양문형 냉장냉동고(815L)", amount: 0, checked: false },
+      { id: "kimchi", label: "빌트인 김치냉장고", amount: 0, checked: false },
+      { id: "washer", label: "드럼세탁기(19Kg)", amount: 0, checked: false },
+      { id: "dryer", label: "전기건조기(16Kg)", amount: 0, checked: false },
+      { id: "tv", label: "65인치 UHD TV", amount: 0, checked: false },
+      { id: "etc", label: "기타", amount: 0, checked: false }
+    ];
+
+    const DEFAULT_STATE = {
+      projectName: "괴정3가로주택정비조합",
+      lotNumber: "",
+      totalAppraisal: 0,
+      proportionalityRate: 100.15,
+      selectedType: "type59A",
+      compactMode: true,
+      showAllFeltGain: false,
+      prices: JSON.parse(JSON.stringify(DEFAULT_TYPES)),
+      benefits: JSON.parse(JSON.stringify(DEFAULT_BENEFITS))
+    };
+
+
+    const buildMergedState = (raw = {}) => {
+      const parsed = raw && raw.state ? raw.state : raw;
+      const mergedPrices = JSON.parse(JSON.stringify(DEFAULT_TYPES));
+      Object.keys(mergedPrices).forEach((key) => {
+        if (parsed.prices && parsed.prices[key]) {
+          mergedPrices[key] = { ...mergedPrices[key], ...parsed.prices[key] };
+        }
+      });
+
+      const mergedBenefits = JSON.parse(JSON.stringify(DEFAULT_BENEFITS)).map((item) => {
+        const found = (parsed.benefits || []).find((b) => b.id === item.id);
+        return found ? { ...item, ...found } : item;
+      });
+
+      return {
+        ...DEFAULT_STATE,
+        ...parsed,
+        prices: mergedPrices,
+        benefits: mergedBenefits
+      };
+    };
+
+    const safeParse = (value) => {
+      if (value === null || value === undefined || value === "") return 0;
+      const num = Number(String(value).replace(/,/g, "").trim());
+      return Number.isFinite(num) ? num : 0;
+    };
+
+    const numberInputValue = (num) => {
+      const parsed = safeParse(num);
+      return parsed === 0 ? "" : parsed.toLocaleString("ko-KR");
+    };
+
+    const formatWon = (num) => `${Math.round(safeParse(num)).toLocaleString("ko-KR")}원`;
+
+const toKoreanWon = (num) => {
+      let value = Math.floor(Math.abs(safeParse(num)));
+      if (value === 0) return "영 원";
+      const numbers = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+      const smallUnits = ["천", "백", "십", ""];
+      const largeUnits = ["", "만", "억", "조", "경"];
+      const groups = [];
+      let unitIndex = 0;
+
+      while (value > 0) {
+        const chunk = value % 10000;
+        if (chunk > 0) {
+          const digits = String(chunk).padStart(4, "0");
+          let chunkText = "";
+          digits.split("").forEach((digitChar, index) => {
+            const digit = Number(digitChar);
+            if (!digit) return;
+            if (!(digit === 1 && index < 3)) chunkText += numbers[digit];
+            chunkText += smallUnits[index];
+          });
+          groups.unshift(`${chunkText}${largeUnits[unitIndex]}`);
+        }
+        value = Math.floor(value / 10000);
+        unitIndex += 1;
+      }
+
+      return `${groups.join(" ")} 원`;
+    };
+
+    const formatShortWon = (num) => {
+      const value = safeParse(num);
+      const abs = Math.abs(Math.round(value));
+      const eok = Math.floor(abs / 100000000);
+      const man = Math.floor((abs % 100000000) / 10000);
+      let text = "";
+      if (eok > 0) text += `${eok}억`;
+      if (man > 0) text += `${text ? " " : ""}${man.toLocaleString("ko-KR")}만`;
+      if (!text) text = abs.toLocaleString("ko-KR");
+      return `${value < 0 ? "-" : ""}${text}원`;
+    };
+
+
+    const getTodayStamp = () => {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    };
+
+    const sanitizeFileName = (name) => {
+      const base = String(name || "").trim() || "지번미입력";
+      return base.replace(/[\/:*?"<>|]/g, "_").replace(/\s+/g, " ").trim();
+    };
+
+    const statusText = (value) => value >= 0 ? "추가부담금" : "환급금";
+    const formatRate = (value) => `${safeParse(value).toLocaleString("ko-KR", { maximumFractionDigits: 2 })}%`;
+    const statusClass = (value) => value >= 0 ? "pos" : "neg";
+
+    const SummaryCard = ({ label, title, value, desc, className = "" }) => (
+      <div className={`summary-card ${className}`}>
+        <div className="summary-label">{label}</div>
+        <div className="summary-title">{title}</div>
+        <div className="summary-value">{value}</div>
+        <div className="summary-desc">{desc}</div>
+      </div>
+    );
+
+    const App = () => {
+      const [state, setState] = useState(DEFAULT_STATE);
+      const fileInputRef = useRef(null);
+      const printFitRef = useRef(null);
+
+      useEffect(() => {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+        try {
+          const parsed = JSON.parse(saved);
+          setState(buildMergedState(parsed));
+        } catch (e) {}
+      }, []);
+
+      useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }, [state]);
+
+      const fitPrintToSingleA4 = () => {
+        const el = printFitRef.current;
+        if (!el) return 1;
+        el.style.setProperty('--print-scale', '1');
+        const targetHeight = 1120;
+        const measuredHeight = Math.ceil(el.scrollHeight || el.getBoundingClientRect().height || 0);
+        if (!measuredHeight) return 1;
+        const scale = Math.min(1, Math.max(0.58, targetHeight / measuredHeight));
+        el.style.setProperty('--print-scale', String(scale));
+        return scale;
+      };
+
+      const handlePrint = () => {
+        fitPrintToSingleA4();
+        window.setTimeout(() => window.print(), 50);
+      };
+
+      useEffect(() => {
+        const beforePrint = () => fitPrintToSingleA4();
+        const afterPrint = () => {
+          if (printFitRef.current) printFitRef.current.style.setProperty('--print-scale', '1');
+        };
+        window.addEventListener('beforeprint', beforePrint);
+        window.addEventListener('afterprint', afterPrint);
+        return () => {
+          window.removeEventListener('beforeprint', beforePrint);
+          window.removeEventListener('afterprint', afterPrint);
+        };
+      }, [state]);
+
+      const selected = state.prices[state.selectedType];
+      const appraisalValue = safeParse(state.totalAppraisal);
+
+      const rightsValue = useMemo(() => {
+        return appraisalValue * (safeParse(state.proportionalityRate) / 100);
+      }, [appraisalValue, state.proportionalityRate]);
+
+      const selectedBenefitSum = useMemo(() => {
+        return state.benefits.reduce((sum, item) => item.checked ? sum + safeParse(item.amount) : sum, 0);
+      }, [state.benefits]);
+
+      const selectedBenefits = useMemo(() => state.benefits.filter((item) => item.checked), [state.benefits]);
+
+      const selectedMember = safeParse(selected.member);
+      const selectedGeneral = safeParse(selected.general);
+      const selectedExtra = selectedMember - rightsValue;
+      const selectedGain = selectedGeneral - selectedMember;
+      const selectedTotalAdvantage = selectedGain + selectedBenefitSum;
+      const selectedFeltGain = selectedGeneral - (appraisalValue + selectedExtra);
+
+      const typeRows = useMemo(() => {
+        return Object.values(state.prices).map((type) => {
+          const member = safeParse(type.member);
+          const general = safeParse(type.general);
+          const extra = member - rightsValue;
+          const gain = general - member;
+          const feltGain = general - (appraisalValue + extra);
+          return {
+            ...type,
+            member,
+            general,
+            extra,
+            gain,
+            feltGain,
+            totalAdvantage: gain + selectedBenefitSum
+          };
+        });
+      }, [state.prices, rightsValue, selectedBenefitSum, appraisalValue]);
+
+      const updatePrice = (typeId, field, value) => {
+        setState((prev) => ({
+          ...prev,
+          prices: {
+            ...prev.prices,
+            [typeId]: {
+              ...prev.prices[typeId],
+              [field]: value
+            }
+          }
+        }));
+      };
+
+      const updateBenefit = (id, patch) => {
+        setState((prev) => ({
+          ...prev,
+          benefits: prev.benefits.map((item) => item.id === id ? { ...item, ...patch } : item)
+        }));
+      };
+
+      const resetDefaults = () => {
+        if (!window.confirm("기본값으로 다시 시작할까요?\n입력한 감정가, 가격, 혜택 금액이 초기화됩니다.")) return;
+        setState(DEFAULT_STATE);
+      };
+
+
+      const saveJsonFile = () => {
+        try {
+          const stamp = getTodayStamp();
+          const fileName = `${sanitizeFileName(state.lotNumber)}_${stamp}.json`;
+          const payload = {
+            version: "v6.24",
+            projectName: state.projectName,
+            lotNumber: state.lotNumber,
+            savedAt: new Date().toISOString(),
+            state
+          };
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          window.alert("JSON 파일 저장 중 오류가 발생했습니다.");
+        }
+      };
+
+      const openJsonPicker = () => {
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+          fileInputRef.current.click();
+        }
+      };
+
+      const handleJsonImport = (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (loadEvent) => {
+          try {
+            const text = String(loadEvent.target?.result || "");
+            const parsed = JSON.parse(text);
+            const nextState = buildMergedState(parsed);
+            setState(nextState);
+            window.alert("JSON 파일을 불러왔습니다.");
+          } catch (error) {
+            window.alert("불러오기에 실패했습니다. 올바른 JSON 파일인지 확인해주세요.");
+          }
+        };
+        reader.onerror = () => {
+          window.alert("파일을 읽는 중 오류가 발생했습니다.");
+        };
+        reader.readAsText(file, "utf-8");
+      };
+
+      return (
+        <div className="shell">
+          <header className="panel px-5 py-5 md:px-7 md:py-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <div className="pill">조합원 이해를 돕기 위한 참고용 · 예상액 기준</div>
+                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-[38px]">
+                  괴정3가로주택정비조합
+                </h1>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
+                  조합원 이해를 돕기 위한 단순 참고용 시뮬레이션이며, 실제 인가 결과에 따라 금액은 달라질 수 있습니다.
+                </p>
+              </div>
+
+              <div className="no-print flex flex-wrap items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/json,.json"
+                  onChange={handleJsonImport}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => setState((prev) => ({ ...prev, compactMode: !prev.compactMode }))}
+                  className="action-btn"
+                >
+                  {state.compactMode ? "조합원 혜택" : "핵심만 보기"}
+                </button>
+                <button onClick={openJsonPicker} className="action-btn">불러오기</button>
+                <button onClick={saveJsonFile} className="action-btn">파일 저장</button>
+                <button onClick={resetDefaults} className="action-btn primary">기본값 초기화</button>
+              </div>
+            </div>
+          </header>
+
+          <div className="layout mt-6 grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
+            <aside className="side lg:sticky lg:top-6 lg:self-start">
+              <div className="panel p-5 md:p-6">
+                <div>
+                  <div className="text-sm font-extrabold text-slate-900">입력값</div>
+                  <p className="mt-1 helper">감정가와 비례율을 넣으면 예상 금액이 계산됩니다. 아래 가격은 확정금액이 아닌 예상 기준값입니다.</p>
+                </div>
+
+                <div className="divider"></div>
+
+                <div>
+                  <label className="label">지번</label>
+                  <input
+                    type="text"
+                    value={state.lotNumber}
+                    onChange={(e) => setState((prev) => ({ ...prev, lotNumber: e.target.value }))}
+                    placeholder="예: 괴정동 123-45"
+                    className="basic-input"
+                  />
+                  <div className="mt-2 helper">저장 파일명과 비교표 상단 정보에 함께 표시됩니다.</div>
+                </div>
+
+                <div className="mt-5">
+                  <label className="label">총 감정가 (종전자산 A)</label>
+                  <input
+                    type="text"
+                    value={numberInputValue(state.totalAppraisal)}
+                    onChange={(e) => setState((prev) => ({ ...prev, totalAppraisal: safeParse(e.target.value) }))}
+                    placeholder="예: 350,000,000"
+                    className="money-input"
+                  />
+                  <div className="input-readout text-right"><strong>{toKoreanWon(state.totalAppraisal)}</strong></div>
+                </div>
+
+                <div className="mt-5">
+                  <label className="label">비례율 (B)</label>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={state.proportionalityRate}
+                    onChange={(e) => setState((prev) => ({ ...prev, proportionalityRate: safeParse(e.target.value) }))}
+                    className="basic-input"
+                  />
+                  <div className="mt-2 helper">기본값은 100.15%입니다. 숫자를 바꾸면 아래 권리가액도 바로 다시 계산됩니다.</div>
+                  <div className="input-readout"><strong>현재 적용 비례율 {formatRate(state.proportionalityRate)}</strong></div>
+                  <div className="panel-soft mt-3 p-3">
+                    <div className="mini">비례율에 따른 권리가액</div>
+                    <div className="mt-1 text-lg font-extrabold text-slate-900">{formatWon(rightsValue)}</div>
+                    <div className="mt-1 text-xs text-slate-500">{toKoreanWon(rightsValue)}</div>
+                  </div>
+                </div>
+
+                <div className="mt-5 panel-soft p-4">
+                  <div className="text-sm font-extrabold text-slate-900">예상 가격 기준</div>
+                  <div className="mt-2 space-y-1 text-sm text-slate-700">
+                    <div>조합원 예상 분양가 기준: 평당 1,500만 원</div>
+                    <div>일반분양 예상가 기준: 평당 2,000만 원</div>
+                    <div className="text-xs text-slate-500">※ 조합원 이해를 돕기 위한 예상 기준값이며 실제 인가 및 분양 시점에 따라 달라질 수 있습니다.</div>
+                  </div>
+                  <div className="divider my-4"></div>
+                  <div className="text-sm font-extrabold text-slate-900">계산 방식</div>
+                  <div className="mt-3 space-y-2 text-sm text-slate-700">
+                    <div>권리가액 = 감정가 × 비례율</div>
+                    <div>추가부담금 = 조합원 분양가 − 권리가액</div>
+                    <div>가격 이익 = 일반분양가 − 조합원 분양가</div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <main className="space-y-6">
+              <section className="print-section panel p-5 md:p-6">
+                <div ref={printFitRef} className="print-fit">
+                <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div className="print-only print-meta">
+                    <div>
+                      <div className="print-meta-title">괴정3가로주택정비조합</div>
+                      <div className="print-meta-sub">타입별 예상 금액 비교표 · 지번 {state.lotNumber ? state.lotNumber : "미입력"}</div>
+                    </div>
+                    <div className="ml-auto text-right">
+                      <div className="print-meta-sub">총 감정가 {formatWon(state.totalAppraisal)} · {toKoreanWon(state.totalAppraisal)}</div>
+                      <div className="print-meta-sub">비례율 {formatRate(state.proportionalityRate)} · 권리가액 {formatWon(rightsValue)}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="section-title">타입별 예상 금액 비교</h2>
+                    <p className="mt-2 helper">조합원 이해를 돕기 위한 단순 참고용 시뮬레이션이며, 실제 인가 결과에 따라 금액은 달라질 수 있습니다.</p>
+                    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                      <div><strong>조합원 예상 분양가 기준</strong> 평당 1,500만 원</div>
+                      <div className="mt-1"><strong>일반분양 예상가 기준</strong> 평당 2,000만 원</div>
+                      <div className="mt-1 text-xs text-slate-500">※ 위 금액은 조합원 이해를 돕기 위한 예상 기준값입니다.</div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-700">
+                      <div><strong>지번</strong> {state.lotNumber ? state.lotNumber : "미입력"}</div>
+                      <div><strong>총 감정가</strong> {formatWon(state.totalAppraisal)}</div>
+                      <div><strong>비례율</strong> {formatRate(state.proportionalityRate)}</div>
+                    </div>
+                  </div>
+                  <div className="no-print flex items-center gap-2">
+                    <div className="pill">행을 누르면 선택</div>
+                    <button onClick={handlePrint} className="action-btn">A4 출력</button>
+                  </div>
+                </div>
+
+                <div className="mt-5 table-wrap">
+                  <table className="clean-table">
+                    <thead>
+                      <tr>
+                        <th>타입</th>
+                        <th>조합원 예상 분양가</th>
+                        <th>추가부담금 / 환급금</th>
+                        <th>일반분양 예상가</th>
+                        <th>일반분양 예상가 대비 차이</th>
+                        <th><div className="flex items-center justify-between gap-2"><span>조합원 혜택</span><button type="button" className={`inline-note-btn ${state.showAllFeltGain ? "active" : ""}`} onClick={(e) => { e.stopPropagation(); setState((prev) => ({ ...prev, showAllFeltGain: !prev.showAllFeltGain })); }}>{state.showAllFeltGain ? "혜택 닫기" : "조합원 혜택 보기"}</button></div></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeRows.map((row) => {
+                        const active = row.id === state.selectedType;
+                        return (
+                          <tr
+                            key={row.id}
+                            className={active ? "selected" : ""}
+                            onClick={() => setState((prev) => ({ ...prev, selectedType: row.id }))}
+                          >
+                            <td>
+                              <div className="type-name">{row.name}</div>
+                              <div className="mini">{row.supplyPy}평 · {row.households}세대</div>
+                            </td>
+                            <td>
+                              <div className="font-extrabold text-slate-900">{formatShortWon(row.member)}</div>
+                            </td>
+                            <td>
+                              <div className={`font-extrabold ${statusClass(row.extra)}`}>{formatShortWon(Math.abs(row.extra))}</div>
+                              <div className="mini mt-1">{statusText(row.extra)}</div>
+                            </td>
+                            <td>
+                              <div className="font-extrabold text-slate-900">{formatShortWon(row.general)}</div>
+                            </td>
+                            <td>
+                              <div className="font-extrabold gain">{formatShortWon(row.gain)}</div>
+                            </td>
+                            <td className="remark-cell">
+                              {state.showAllFeltGain ? (
+                                <div className="felt-gain-box">
+                                  <div className="felt-gain-label">조합원 혜택 예상 합계</div>
+                                  <div className="felt-gain-value">{formatShortWon(selectedBenefitSum)}</div>
+                                  <div className="felt-gain-desc">
+                                    일반분양 예상가 대비 차이 {formatShortWon(row.gain)} + 조합원 혜택 {formatShortWon(selectedBenefitSum)}
+                                  </div>
+                                  <div className="mt-2 text-sm font-bold text-slate-800">합산 예상 참고금액 {formatShortWon(row.gain + selectedBenefitSum)}</div>
+                                </div>
+                              ) : null}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                </div>
+              </section>
+
+              {!state.compactMode ? (
+                <>
+                  <details className="panel" open>
+                    <summary className="flex items-center justify-between gap-3 px-5 py-4 md:px-6">
+                      <div>
+                        <div className="text-lg font-extrabold text-slate-900">조합원 혜택 입력</div>
+                        <div className="mt-1 helper">해당되는 항목만 체크하고 금액을 직접 넣을 수 있습니다.</div>
+                      </div>
+                      <div className="pill">열림</div>
+                    </summary>
+                    <div className="border-t border-slate-200 p-5 md:p-6">
+                      <div className="panel-soft mb-5 p-4">
+                        <div className="mini">현재 선택 혜택 합계</div>
+                        <div className="mt-2 text-2xl font-extrabold text-slate-900">{formatWon(selectedBenefitSum)}</div>
+                        <div className="mt-1 helper">선택된 혜택 {selectedBenefits.length}개</div>
+                      </div>
+
+                      <div className="grid gap-3 md:grid-cols-2">
+                        {state.benefits.map((item) => (
+                          <div key={item.id} className="panel-soft p-4">
+                            <label className="flex cursor-pointer items-start gap-3 text-sm font-bold text-slate-800">
+                              <input
+                                type="checkbox"
+                                checked={item.checked}
+                                onChange={(e) => updateBenefit(item.id, { checked: e.target.checked })}
+                                className="mt-1 h-4 w-4 accent-blue-700"
+                              />
+                              <span>{item.label}</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={numberInputValue(item.amount)}
+                              onChange={(e) => updateBenefit(item.id, { amount: safeParse(e.target.value) })}
+                              placeholder="혜택 금액 직접 입력"
+                              className="money-input mt-3"
+                              style={{fontSize: '15px', paddingTop: '12px', paddingBottom: '12px'}}
+                            />
+                            <div className="mt-2 text-right text-xs text-slate-500">{formatShortWon(item.amount)}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </details>
+                </>
+              ) : null}
+            </main>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+
+    <footer class="site-footer">
+      <div class="creator">만든이 artistRDG</div>
+      <div class="copyright">본 시뮬레이션 자료의 무단 사용, 임의 수정, 재배포를 금합니다.</div>
+    </footer>
+
+</body>
+</html>
