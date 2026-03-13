@@ -181,31 +181,19 @@
     }
 
     .countdown-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.02em;
-    }
-
-    .countdown-number {
-      margin-top: 20px;
-      font-size: clamp(120px, 20vw, 200px);
+      font-size: clamp(24px, 5vw, 48px);
       font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.05em;
-      color: rgba(215, 222, 238, 0.42);
-      position: relative;
-      z-index: 1;
-      user-select: none;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.04em;
+      margin-bottom: 40px;
+      line-height: 1.1;
+      display: inline-block;
     }
 
-    .countdown-unit {
-      margin-top: 8px;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-    }
+
 
     /* ══════════════════════════════════════
        Progress Bar
@@ -469,9 +457,7 @@
 
     <!-- Countdown -->
     <div class="countdown-panel">
-      <div class="countdown-label">마감일까지 남은 날</div>
-      <div class="countdown-number" id="dday-number">--</div>
-      <div class="countdown-unit">일 남음</div>
+      <div class="countdown-label">조합원 분양 마감 5월 7일(목)</div>
 
       <!-- Progress -->
       <div class="progress-section">
@@ -555,9 +541,7 @@
       function updateCountdown() {
         const now = new Date();
         const diff = DEADLINE - now;
-        const daysLeft = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 
-        document.getElementById('dday-number').textContent = daysLeft;
 
         // Progress
         const totalSpan = DEADLINE - START;
