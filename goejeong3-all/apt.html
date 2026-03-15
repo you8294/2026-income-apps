@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>괴정3 가로주택정비사업 — 단지 안내</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+<style>
+  /* ── Fullscreen Expand Button ── */
+  .fs-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .fs-btn:hover { background: rgba(0,0,0,0.8); transform: scale(1.08); }
+
+  /* ── Container Fullscreen Mode ── */
+  .img-container.fs-mode {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99998 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #000 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    animation: fsFadeIn 0.2s ease;
+  }
+  @keyframes fsFadeIn { from { opacity:0; } to { opacity:1; } }
+
+  /* img-layer size is set by JS to match image natural ratio */
+  .img-container.fs-mode .img-layer.active {
+    position: relative !important;
+    inset: auto !important;
+    flex-shrink: 0;
+  }
+  .img-container.fs-mode .img-layer.active > img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
+    display: block;
+  }
+
+  /* ── Floating Close Button ── */
+  #fs-close-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 99999;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+  #fs-close-btn.visible { display: flex; }
+  #fs-close-btn:hover { background: rgba(60,60,60,0.9); }
+  #fs-hint-label {
+    display: none;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    color: rgba(255,255,255,0.35);
+    font-size: 12px;
+    pointer-events: none;
+  }
+  #fs-hint-label.visible { display: block; }
+</style>
+</head>
+
+<body>
+    <a href="../index.html" style="
+      position:fixed; top:12px; left:12px; z-index:9999;
+      display:flex; align-items:center; gap:7px;
+      padding:8px 16px 8px 12px;
+      background:#111827; border:1px solid #2a3654; border-radius:999px;
+      color:#e8ecf4; text-decoration:none;
+      font-family:'Noto Sans KR',-apple-system,sans-serif;
+      font-size:13px; font-weight:700;
+      box-shadow:0 4px 20px rgba(0,0,0,0.3);
+      transition:all 0.2s ease;
+    " onmouseover="this.style.background='#1a2340';this.style.transform='translateY(-1px)'"
+       onmouseout="this.style.background='#111827';this.style.transform='translateY(0)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      메인으로
+    </a>
+    <button id="theme-toggle" title="라이트/다크 모드 전환"><i class="fas fa-sun"></i></button>
+    <button id="print-btn" title="인쇄용 레이아웃" onclick="window.print()"><i class="fas fa-print"></i></button>
+    <div class="wrap">
+
+        <header class="anim-target">
+            <div class="hero-tag">📍 부산 사하구 괴정동 1077번지 일원 · 지하4층~지상26층 · 최고 75.5m</div>
+            <h1>괴정3 가로주택정비사업<br>단지 안내</h1>
+            <div class="spec-row">
+                <span class="spec-chip"><i class="fas fa-fire-flame-curved"></i> 개별난방</span>
+                <span class="spec-chip"><i class="fas fa-building-columns"></i> 철근/혼합구조</span>
+                <span class="spec-chip"><i class="fas fa-chart-line"></i> 용적률 226%</span>
+                <span class="spec-chip"><i class="fas fa-leaf"></i> 조경 20.47%</span>
+            </div>
+        </header>
+
+        <!-- STATS -->
+        <div class="stats anim-target">
+            <div class="stat">
+                <div class="stat-val">230</div>
+                <div class="stat-lbl">🏠 총 세대수</div>
+                <div class="stat-sub">조합82 / 일반113 / 특별35</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">40<span>%</span></div>
+                <div class="stat-lbl">🌟 국민평형(84㎡)</div>
+                <div class="stat-sub">총 92세대 확보</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">1.32</div>
+                <div class="stat-lbl">🚗 세대당 주차</div>
+                <div class="stat-sub">법정 대비 132%</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">305</div>
+                <div class="stat-lbl">🅿️ 총 주차</div>
+                <div class="stat-sub">EV충전16 / 장애인14</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">75.5<span>m</span></div>
+                <div class="stat-lbl">🏗️ 최고높이</div>
+                <div class="stat-sub">지하4~지상26층</div>
+            </div>
+        </div>
+
+        <!-- ──── SECTION: HOME FINDER QUIZ (C1) ──── -->
+        <div class="quiz-section anim-target">
+            <h2 class="section-title">🏠 나에게 맞는 동 찾기</h2>
+            <p class="section-desc">아래 질문에 답하면 나에게 가장 어울리는 동을 추천해 드립니다.</p>
+            <div class="quiz-grid">
+                <div class="quiz-q">
+                    <label>👨‍👩‍👧 가족 구성은?</label>
+                    <select id="q-family">
+                        <option value="">선택</option>
+                        <option value="1">1~2인 (싱글/신혼)</option>
+                        <option value="2">3인 (영유아 자녀)</option>
+                        <option value="3">3~4인 (초등 자녀)</option>
+                        <option value="4">어르신 동거 가족</option>
+                    </select>
+                </div>
+                <div class="quiz-q">
+                    <label>🚗 출퇴근 동선이 중요한가요?</label>
+                    <select id="q-commute">
+                        <option value="">선택</option>
+                        <option value="y">매우 중요</option>
+                        <option value="n">보통 / 재택</option>
+                    </select>
+                </div>
+                <div class="quiz-q">
+                    <label>🔇 조용한 환경을 선호하시나요?</label>
+                    <select id="q-quiet">
+                        <option value="">선택</option>
+                        <option value="y">매우 중요</option>
+                        <option value="n">상관없음</option>
+                    </select>
+                </div>
+                <div class="quiz-q">
+                    <label>📐 선호 평형은?</label>
+                    <select id="q-size">
+                        <option value="">선택</option>
+                        <option value="59">59㎡(25평)</option>
+                        <option value="84">84㎡(34평)</option>
+                        <option value="any">상관없음</option>
+                    </select>
+                </div>
+            </div>
+            <button class="quiz-btn" id="quiz-submit"><i class="fas fa-magic"></i> 추천 받기</button>
+            <div id="quiz-result" class="quiz-result" style="display:none"></div>
+        </div>
+
+        <!-- ──── MAIN GRID: MAP + INFO ──── -->
+        <div class="main-grid anim-target">
+            <div class="map-panel">
+                <div class="map-panel-header">
+                    <h3>🌍 단지 배치 및 주변 환경</h3>
+                    <div class="compass"><i class="fas fa-location-arrow"></i><span class="compass-text">N (북)</span>
+                    </div>
+                </div>
+
+                <!-- Map vs Photo Tabs -->
+                <div class="map-tabs">
+                    <button class="map-tab active" data-view="map">📐 단지 배치도</button>
+                    <button class="map-tab" data-view="photo">📸 항공 조감도 (AI 렌더링)</button>
+                </div>
+
+                <!-- Facility Button Bar -->
+                <div class="fac-btn-bar">
+                    <button class="fac-btn" data-fac="관리사무소" onclick="toggleFac(this)">🏢 관리</button>
+                    <button class="fac-btn" data-fac="경로당" onclick="toggleFac(this)">🍵 경로당</button>
+                    <button class="fac-btn" data-fac="주민공동시설" onclick="toggleFac(this)">💪 커뮤니티</button>
+                    <button class="fac-btn" data-fac="근린생활시설" onclick="toggleFac(this)">🛒 상가</button>
+                    <button class="fac-btn" data-fac="경비실" onclick="toggleFac(this)">🛡️ 경비</button>
+                    <button class="fac-btn" data-fac="어린이놀이터" onclick="toggleFac(this)">🛝 놀이터</button>
+                    <button class="fac-btn" data-fac="주민운동시설" onclick="toggleFac(this)">💪 운동</button>
+                    <button class="fac-btn" data-fac="외부계단" onclick="toggleFac(this)">🪜 계단</button>
+                    <button class="fac-btn" data-fac="지하주차장" onclick="toggleFac(this)">🚗 주차</button>
+                    <button class="fac-btn" data-fac="세대창고" onclick="toggleFac(this)">📦 창고</button>
+                </div>
+                <div class="img-container">
+
+                    <!-- LAYER 1: Blueprint Map -->
+                    <div class="img-layer active" id="view-map">
+                        <img src="전체배치.png" alt="괴정3 전체배치도">
+                        <div class="hs" id="hs-102" data-target="card-102" style="left:38%;top:36%">
+                            <div class="hs-ring" style="background:#3b82f6"></div>
+                            <div class="hs-dot" style="background:#3b82f6">102</div>
+                            <div class="hs-tip" style="border-color:#3b82f6;color:#93c5fd">⏱ 102동</div>
+                        </div>
+                        <div class="hs" id="hs-101" data-target="card-101" style="left:62%;top:54%">
+                            <div class="hs-ring" style="background:#10b981"></div>
+                            <div class="hs-dot" style="background:#10b981">101</div>
+                            <div class="hs-tip" style="border-color:#10b981;color:#6ee7b7">🌿 101동</div>
+                        </div>
+                        <div class="hs" id="hs-103" data-target="card-103" style="left:35%;top:60%">
+                            <div class="hs-ring" style="background:#f59e0b"></div>
+                            <div class="hs-dot" style="background:#f59e0b">103</div>
+                            <div class="hs-tip" style="border-color:#f59e0b;color:#fde68a">👨‍👩‍👧‍👦 103동</div>
+                        </div>
+                        <!-- Entrance markers -->
+                        <div class="entrance-marker" style="left:48%;top:28%">
+                            <div class="em-label">🚗 차량출입구</div><i class="fas fa-caret-down"
+                                style="color:#ef4444;font-size:1.2rem"></i>
+                        </div>
+                        <div class="entrance-marker" style="left:59%;top:32%">
+                            <div class="em-label">🛒 근생 출입구</div><i class="fas fa-caret-down"
+                                style="color:#f59e0b;font-size:1.2rem"></i>
+                        </div>
+                        <div class="entrance-marker" style="left:24%;top:72%">
+                            <div class="em-label">🚶 남측출입구</div><i class="fas fa-caret-down"
+                                style="color:#60a5fa;font-size:1.2rem"></i>
+                        </div>
+                        <div class="entrance-marker" style="left:76%;top:64%">
+                            <div class="em-label">🚶 동측출입구</div><i class="fas fa-caret-down"
+                                style="color:#60a5fa;font-size:1.2rem"></i>
+                        </div>
+                        <!-- Facility markers with popups -->
+                        <div class="fac-marker" data-fac="관리사무소" style="left:32%;top:66%"><span
+                                class="fm-dot">🏢</span><span class="fm-label">관리사무소</span>
+                            <div class="fm-popup"><strong>관리사무소</strong><span class="fm-floor">지하4·3층 · 202.9㎡
+                                    (61평)</span>
+                                <p>103동 방면. 단지 전산관리·민원·택배 응대</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="경로당" style="left:40%;top:63%"><span
+                                class="fm-dot">🍵</span><span class="fm-label">경로당</span>
+                            <div class="fm-popup"><strong>경로당</strong><span class="fm-floor">지상 1층 · 131.1㎡ (40평)</span>
+                                <p>101동 1층. 어르신 전용 복지 사랑방</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="주민공동시설" style="left:48%;top:52%"><span
+                                class="fm-dot">👥</span><span class="fm-label">커뮤니티</span>
+                            <div class="fm-popup"><strong>주민공동시설</strong><span class="fm-floor">지하3층 · 631.7㎡
+                                    (191평)</span>
+                                <p>피트니스·다목적실·카페라운지</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="경비실" style="left:20%;top:68%"><span
+                                class="fm-dot">🛡️</span><span class="fm-label">경비실</span>
+                            <div class="fm-popup"><strong>경비실</strong><span class="fm-floor">지상 1층 · 21.6㎡ (6.5평)</span>
+                                <p>진입마당 앞 단지 보안·출입 관리</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="어린이놀이터" style="left:46%;top:63%"><span
+                                class="fm-dot">🛝</span><span class="fm-label">놀이터</span>
+                            <div class="fm-popup"><strong>어린이놀이터</strong><span class="fm-floor">지상 · 법정 의무시설</span>
+                                <p>103동 앞 대형 배치 + 2호 분산</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="근린생활시설" style="left:56%;top:30%"><span
+                                class="fm-dot">🛒</span><span class="fm-label">상가</span>
+                            <div class="fm-popup"><strong>근린생활시설 (상가)</strong><span class="fm-floor">지하4·3층 · 1,116.1㎡
+                                    (337평)</span>
+                                <p>편의점·카페·세탁소 등 슬세권 상가</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="주민운동시설" style="left:63%;top:36%"><span
+                                class="fm-dot">💪</span><span class="fm-label">운동시설</span>
+                            <div class="fm-popup"><strong>주민운동시설</strong><span class="fm-floor">지하3층 · 587.4㎡
+                                    (177평)</span>
+                                <p>101동 외곽. 전면 조경 조망</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="외부계단" style="left:48%;top:32%"><span
+                                class="fm-dot">🪜</span><span class="fm-label">외부계단</span>
+                            <div class="fm-popup"><strong>외부계단 #1, #2</strong><span class="fm-floor">지상 1층 ·
+                                    152.7㎡</span>
+                                <p>단지 레벨 차이 해소 · 비상 대피 동선</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="지하주차장" style="left:44%;top:30%"><span
+                                class="fm-dot">🚗</span><span class="fm-label">주차장</span>
+                            <div class="fm-popup"><strong>지하주차장</strong><span class="fm-floor">지하4~1층 · 13,689㎡
+                                    (4,141평)</span>
+                                <p>총 305대 (EV 16대 · 장애인 14대)</p>
+                            </div>
+                        </div>
+                        <div class="fac-marker" data-fac="세대창고" style="left:50%;top:46%"><span
+                                class="fm-dot">📦</span><span class="fm-label">창고</span>
+                            <div class="fm-popup"><strong>세대창고</strong><span class="fm-floor">지하1층 · 180.3㎡ (55평)</span>
+                                <p>주차장 인접 세대별 개인 수납공간</p>
+                            </div>
+                        </div>
+                        <button class="fs-btn" title="전체 화면으로 보기" onclick="openFullscreen()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- LAYER 2: Site Photo Overlay -->
+                    <div class="img-layer" id="view-photo">
+                        <img src="rendering.png" alt="괴정3 항공 조감도" loading="lazy">
+                        <!-- Overlay Labels (Approximate percentages based on photo angle) -->
+                        <div class="photo-label" style="left:32%;top:58%; border-color:#3b82f6;"><span
+                                style="color:#93c5fd">102동</span><span class="pl-sub">메인 타워</span></div>
+                        <div class="photo-label" style="left:48%;top:45%; border-color:#10b981;"><span
+                                style="color:#6ee7b7">101동</span><span class="pl-sub">프라이빗 동</span></div>
+                        <div class="photo-label" style="left:65%;top:50%; border-color:#f59e0b;"><span
+                                style="color:#fde68a">103동</span><span class="pl-sub">패밀리 에코동</span></div>
+                        <button class="fs-btn" title="전체 화면으로 보기" onclick="openFullscreen()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                        </button>
+                    </div>
+
+                </div><!-- /img-container -->
+                <div class="legend">
+                    <div class="leg-item">
+                        <div class="leg-dot" style="background:#3b82f6"></div>102동
+                    </div>
+                    <div class="leg-item">
+                        <div class="leg-dot" style="background:#10b981"></div>101동
+                    </div>
+                    <div class="leg-item">
+                        <div class="leg-dot" style="background:#f59e0b"></div>103동
+                    </div>
+                    <div class="leg-item">
+                        <div class="leg-dot" style="background:#ef4444"></div>차량출입
+                    </div>
+                    <div class="leg-item">
+                        <div class="leg-dot" style="background:#60a5fa"></div>보행출입
+                    </div>
+                </div>
+                <div class="map-guide"><i class="fa-regular fa-hand-pointer"></i> <strong>동 마커(●)</strong> 클릭 = 상세정보 |
+                    <strong>상단 시설 버튼</strong> = 위치 표시
+                </div>
+            </div>
+
+            <!-- INFO PANEL -->
+            <div class="info-panel">
+                <!-- 102동 (default visible) -->
+                <div id="card-102" class="icard visible" style="--c-accent:#3b82f6">
+                    <div class="icard-header">
+                        <div>
+                            <div class="icard-title" style="color:#60a5fa"><i class="fas fa-bolt"></i> 102동</div>
+                            <div class="icard-sub">"단지의 얼굴, 가성비 메인 타워"</div>
+                        </div>
+                        <div class="icard-icon" style="color:#3b82f6"><i class="fas fa-building"></i></div>
+                    </div>
+                    <div class="badges"><span class="badge" style="color:#93c5fd;border-color:#3b82f6">⏱
+                            스마트/액티브</span><span class="badge">최고 26층</span><span class="badge">59A·59B 119세대</span>
+                    </div>
+                    <div class="hunting-focus">
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-sun"></i></div>
+                            <div class="focus-text">
+                                <h5>주 채광</h5>
+                                <p>동남향 / 정남향</p>
+                            </div>
+                        </div>
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-eye"></i></div>
+                            <div class="focus-text">
+                                <h5>뷰</h5>
+                                <p>중앙광장 직관</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floor-tip"><i class="fas fa-layer-group"></i> <strong>추천 층수:</strong> 10층 이상 → 인접 성림아파트
+                        간섭 탈출, 북측 조망 확보</div>
+                    <ul class="feats">
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#3b82f6"><i class="fas fa-car-side"></i></div>
+                            <div>
+                                <h4>출퇴근 좋은위치</h4>
+                                <p>북측 10M 메인 도로 차량 진출입 최단 거리. 상가(지하3~4층, 1,116㎡) 접근성도 최고.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#3b82f6"><i class="fas fa-crown"></i></div>
+                            <div>
+                                <h4>단지 상징 포디움 (최고 26층 · 75.5m)</h4>
+                                <p>단지 스카이라인을 이끄는 메인 타워. 중앙광장 직결 보행 동선.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#3b82f6"><i class="fas fa-coins"></i></div>
+                            <div>
+                                <h4>높은 환금성 (59A 51세대 + 59B 68세대)</h4>
+                                <p>신혼부부 특공 23세대 수요 집중. 임대·매매 환금성 탁월.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="target-box" style="border-left:3px solid #3b82f6"><strong style="color:#60a5fa">💡 추천
+                            타겟</strong> 출퇴근 동선이 최우선인 2030 직장인·스마트 신혼부부</div>
+                </div>
+
+                <!-- 101동 -->
+                <div id="card-101" class="icard" style="--c-accent:#10b981">
+                    <div class="icard-header">
+                        <div>
+                            <div class="icard-title" style="color:#34d399"><i class="fas fa-leaf"></i> 101동</div>
+                            <div class="icard-sub">"프라이빗 주거 + 🏆 139㎡ 펜트하우스"</div>
+                        </div>
+                        <div class="icard-icon" style="color:#10b981"><i class="fas fa-building"></i></div>
+                    </div>
+                    <div class="badges"><span class="badge" style="color:#6ee7b7;border-color:#10b981">🌿
+                            힐링/프라이빗</span><span class="badge">최고 25층</span><span class="badge">59C·84·139㎡ 혼합</span>
+                    </div>
+                    <div class="hunting-focus">
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-child-reaching"></i></div>
+                            <div class="focus-text">
+                                <h5>보육</h5>
+                                <p>승학어린이집 초인접</p>
+                            </div>
+                        </div>
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-ear-deaf"></i></div>
+                            <div class="focus-text">
+                                <h5>환경</h5>
+                                <p>초저소음 / 독립배치</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floor-tip"><i class="fas fa-layer-group"></i> <strong>추천 층수:</strong> 15층 이상 → 동측 개방 조망
+                        확보. 은하맨션·영광연립 시선 간섭 완전 회피</div>
+                    <ul class="feats">
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#10b981"><i class="fas fa-gem"></i></div>
+                            <div>
+                                <h4>🏆 단지 유일 139㎡ 펜트하우스 (1세대)</h4>
+                                <p>전용 139.5㎡ / 분양 323.6㎡(약 98평). 단지 전체에서 유일한 프리미엄 대형 세대.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#10b981"><i class="fas fa-person-cane"></i></div>
+                            <div>
+                                <h4>시니어 허브 — 대형 경로당 (131.1㎡, 약 40평)</h4>
+                                <p>1층 직결. 어르신 최적 동선 확보.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#10b981"><i class="fas fa-dumbbell"></i></div>
+                            <div>
+                                <h4>피트니스 독점 (587.4㎡, 약 177평)</h4>
+                                <p>주민운동시설·휴게마당이 동 외곽으로 길게 연결.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="target-box" style="border-left:3px solid #10b981"><strong style="color:#34d399">💡 추천
+                            타겟</strong> 조용한 생활 선호 · 어르신 동거 · 프리미엄 대형 평수 희망자</div>
+                </div>
+
+                <!-- 103동 -->
+                <div id="card-103" class="icard" style="--c-accent:#f59e0b">
+                    <div class="icard-header">
+                        <div>
+                            <div class="icard-title" style="color:#fbbf24"><i class="fas fa-heart"></i> 103동</div>
+                            <div class="icard-sub">"국민평형 전용 로열동 · 2개층 필로티"</div>
+                        </div>
+                        <div class="icard-icon" style="color:#f59e0b"><i class="fas fa-building"></i></div>
+                    </div>
+                    <div class="badges"><span class="badge" style="color:#fde68a;border-color:#f59e0b">👨‍👩‍👧‍👦
+                            패밀리</span><span class="badge">최고 24층</span><span class="badge">84㎡ 단일평형</span><span
+                            class="badge">2개층 필로티</span></div>
+                    <div class="hunting-focus">
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-shapes"></i></div>
+                            <div class="focus-text">
+                                <h5>뷰</h5>
+                                <p>놀이터 감시 👀</p>
+                            </div>
+                        </div>
+                        <div class="focus-item">
+                            <div class="focus-icon"><i class="fas fa-building-user"></i></div>
+                            <div class="focus-text">
+                                <h5>편의</h5>
+                                <p>관리소(202.9㎡) 직결</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floor-tip"><i class="fas fa-layer-group"></i> <strong>추천 층수:</strong> 3층(필로티 위)~15층 →
+                        놀이터 감시 최적. 고층은 남측 개방 조망</div>
+                    <ul class="feats">
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#f59e0b"><i class="fas fa-star"></i></div>
+                            <div>
+                                <h4>전 세대 국민평형 84㎡ (46세대)</h4>
+                                <p>단일 평형 로열동. 시세 리딩 앵커.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#f59e0b"><i class="fas fa-child"></i></div>
+                            <div>
+                                <h4>놀이터 & 광장 1분 직결</h4>
+                                <p>2개층 필로티 구조로 1층이 개방형. 놀이터·맘스테이션 즉시 접근.</p>
+                            </div>
+                        </li>
+                        <li class="feat">
+                            <div class="feat-icon" style="color:#f59e0b"><i class="fas fa-users"></i></div>
+                            <div>
+                                <h4>생활 행정 허브 — 관리사무소 (202.9㎡)</h4>
+                                <p>택배·민원·관리 모두 1분 컷.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="target-box" style="border-left:3px solid #f59e0b"><strong style="color:#fbbf24">💡 추천
+                            타겟</strong> 초등 학령기 3~4인 가족. 놀이터 필수 세대.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ──── SECTION: AREA TABLE (C2) ──── -->
+        <div class="section anim-target">
+            <h2 class="section-title">📏 평형별 상세 면적표</h2>
+            <div class="table-wrap">
+                <table class="area-table">
+                    <thead>
+                        <tr>
+                            <th>타입</th>
+                            <th>세대수</th>
+                            <th>비율</th>
+                            <th>전용(㎡)</th>
+                            <th>공급(㎡)</th>
+                            <th>분양(㎡)</th>
+                            <th>지하주차(㎡)</th>
+                            <th>총분양(㎡/평)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="t-blue">
+                            <td><strong>59A</strong></td>
+                            <td>51</td>
+                            <td>22.2%<span class="ratio-bar" style="width:22%"></span></td>
+                            <td>59.960</td>
+                            <td>82.750</td>
+                            <td>89.260</td>
+                            <td>50.760</td>
+                            <td>140.020 (42.4평)</td>
+                        </tr>
+                        <tr class="t-blue">
+                            <td><strong>59B</strong></td>
+                            <td>68</td>
+                            <td>29.6%<span class="ratio-bar" style="width:30%"></span></td>
+                            <td>59.954</td>
+                            <td>82.509</td>
+                            <td>89.019</td>
+                            <td>50.760</td>
+                            <td>139.779 (42.3평)</td>
+                        </tr>
+                        <tr class="t-green">
+                            <td><strong>59C</strong></td>
+                            <td>18</td>
+                            <td>7.8%<span class="ratio-bar" style="width:8%"></span></td>
+                            <td>59.960</td>
+                            <td>83.230</td>
+                            <td>89.740</td>
+                            <td>50.760</td>
+                            <td>140.500 (42.5평)</td>
+                        </tr>
+                        <tr class="t-orange">
+                            <td><strong>84</strong></td>
+                            <td>92</td>
+                            <td>40.0%<span class="ratio-bar" style="width:40%"></span></td>
+                            <td>84.955</td>
+                            <td>114.959</td>
+                            <td>124.179</td>
+                            <td>71.920</td>
+                            <td>196.099 (59.3평)</td>
+                        </tr>
+                        <tr class="t-green">
+                            <td><strong>139P</strong></td>
+                            <td>1</td>
+                            <td>0.4%<span class="ratio-bar" style="width:1%"></span></td>
+                            <td>139.524</td>
+                            <td>190.368</td>
+                            <td>205.508</td>
+                            <td>118.120</td>
+                            <td>323.628 (97.9평)</td>
+                        </tr>
+                        <tr class="t-total">
+                            <td><strong>합계</strong></td>
+                            <td><strong>230</strong></td>
+                            <td>100%</td>
+                            <td colspan="5">총 분양면적 37,539.587㎡ (11,356평)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ──── CHARTS & CHECKLIST ROW ──── -->
+        <div class="charts-row anim-target">
+            <div class="chart-box">
+                <h3>📊 평형 구성 비율</h3>
+                <div class="chart-inner"><canvas id="pieChart"></canvas></div>
+            </div>
+            <div class="chart-box">
+                <h3>🔷 동별 특성 비교</h3>
+                <div class="chart-inner"><canvas id="radarChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section anim-target visit-checklist" style="margin-top:1.5rem">
+            <h3 style="margin-bottom:.8rem;color:var(--text);font-size:.85rem;font-weight:800;">✅ 현장 방문 시 체크포인트</h3>
+            <ul style="list-style:none;">
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">서측 12M 도로 경사도</strong> — 실제 체감 확인
+                </li>
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">북측 10M 도로 차량 동선</strong> — 출퇴근 시간대 차량 흐름
+                </li>
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">승학어린이집 거리</strong> — 도보 소요 시간
+                </li>
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">성림아파트 간격</strong> — 저층 일조권 영향 확인
+                </li>
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">주변 상권·마트</strong> — 도보 5분 반경 편의시설
+                </li>
+                <li style="font-size:.78rem;color:var(--text2);padding:.4rem 0;border-bottom:1px solid var(--border);">
+                    <strong style="color:var(--text)">대중교통</strong> — 가장 가까운 버스정류장 위치
+                </li>
+            </ul>
+        </div>
+
+        <!-- ──── PROS / CONS with Defense (B1) ──── -->
+        <div class="proscons anim-target">
+            <div class="pros">
+                <div class="pc-title" style="color:#10b981"><i class="fas fa-thumbs-up"></i> 체크</div>
+                <ul class="pc-list">
+                    <li><strong>주차 안심:</strong> 법정 230대 → 계획 305대(132%)</li>
+                    <li><strong>용적률 극대화:</strong> 200%→226% 인센티브 확보</li>
+                    <li><strong>특공 35세대:</strong> 신혼23 + 다자녀12</li>
+                    <li><strong>조경 20.47%:</strong> 법정15% 초과</li>
+                    <li><strong>차 없는 지상:</strong> 100% 지하 데크 주차</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <div class="pc-title" style="color:#ef4444"><i class="fas fa-triangle-exclamation"></i> 확인 사항</div>
+                <ul class="pc-list defense-list">
+                    <li class="defense-item" onclick="this.classList.toggle('open')">
+                        <div><strong>서측 12M 도로 경사</strong> — 체감 경사도 확인 요망</div>
+                        <div class="defense-answer">🛡️ "오히려 경사 덕분에 고층부 조망이 더 열리며, 지하 진입 램프 설계에 자연 구배를 활용해 비용 절감."</div>
+                    </li>
+                    <li class="defense-item" onclick="this.classList.toggle('open')">
+                        <div><strong>인접 구축 간섭</strong> — 성림/은하/영광 저층 조망</div>
+                        <div class="defense-answer">🛡️ "기존 건물보다 높은 10층 이상이면 완전 회피. V자 배치 덕에 동간 이격도 충분."</div>
+                    </li>
+                    <li class="defense-item" onclick="this.classList.toggle('open')">
+                        <div><strong>출입구 병목</strong> — 북측 10M 단일 진입</div>
+                        <div class="defense-answer">🛡️ "차량은 1곳 집중이지만 보행 출입은 3곳 분산. 지하 연결 램프로 지상 간섭 제로."</div>
+                    </li>
+                    <li class="defense-item" onclick="this.classList.toggle('open')">
+                        <div><strong>비정형 부지</strong> — 공간 효율 우려</div>
+                        <div class="defense-answer">🛡️ "비정형이어서 오히려 일렬 답답한 배치가 아닌 V자형 중앙광장을 품는 배치가 가능."</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="anim-target">
+            <p>괴정3 가로주택정비사업 조합원 설명 자료 <br>
+                <span style="opacity:.45">본 자료의 배치도·수치는 건축심의 및 인·허가 과정에서 변경될 수 있습니다.</span>
+            </p>
+            <p style="margin-top:0.5rem;font-size:0.6rem;color:var(--text3);">만든이 artistRDG vo1</p>
+        </footer>
+
+    </div><!-- /wrap -->
+
+    <script src="app.js"></script>
+
+    <button id="fs-close-btn" onclick="closeFullscreen()" title="닫기">✕</button>
+    <div id="fs-hint-label">ESC 또는 더블클릭으로 닫기</div>
+
+    <script>
+      function openFullscreen() {
+        const con = document.querySelector('.img-container');
+        const activeLayer = document.querySelector('.img-layer.active');
+        const img = activeLayer ? activeLayer.querySelector('img') : null;
+        if (!con || !activeLayer || !img) return;
+
+        // Compute exact pixel size so % markers stay aligned with image
+        function applySize() {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const iw = img.naturalWidth || img.width || 1;
+          const ih = img.naturalHeight || img.height || 1;
+          const imgRatio = iw / ih;
+          const vpRatio  = vw / vh;
+          let layerW, layerH;
+          if (imgRatio > vpRatio) {
+            layerW = vw;
+            layerH = Math.round(vw / imgRatio);
+          } else {
+            layerH = vh;
+            layerW = Math.round(vh * imgRatio);
+          }
+          activeLayer.style.width  = layerW + 'px';
+          activeLayer.style.height = layerH + 'px';
+        }
+
+        con.classList.add('fs-mode');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('fs-close-btn').classList.add('visible');
+        document.getElementById('fs-hint-label').classList.add('visible');
+
+        if (img.complete && img.naturalWidth) {
+          applySize();
+        } else {
+          img.addEventListener('load', applySize, { once: true });
+        }
+      }
+
+      function closeFullscreen() {
+        const con = document.querySelector('.img-container');
+        const activeLayer = document.querySelector('.img-layer.active');
+        if (con) con.classList.remove('fs-mode');
+        if (activeLayer) {
+          activeLayer.style.width  = '';
+          activeLayer.style.height = '';
+        }
+        document.body.style.overflow = '';
+        document.getElementById('fs-close-btn').classList.remove('visible');
+        document.getElementById('fs-hint-label').classList.remove('visible');
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeFullscreen();
+      });
+    </script>
+</body>
+
+</html>
