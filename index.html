@@ -266,6 +266,10 @@
       padding-bottom: 24px;
     }
 
+    .nav-card-full {
+      grid-column: 1 / -1;
+    }
+
     .nav-card {
       display: flex;
       align-items: center;
@@ -519,6 +523,29 @@
         </div>
       </a>
 
+      <!-- Card 3: 건축 분석 시뮬레이션 -->
+      <a class="nav-card nav-card-full" href="#" onclick="checkPassword(event)">
+        <div class="nav-card-icon" style="background: rgba(91, 124, 250, 0.12); color: var(--accent);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16H4"/>
+            <path d="M14 2v20"/>
+            <path d="M10 6h4"/>
+            <path d="M10 10h4"/>
+            <path d="M10 14h4"/>
+            <path d="M10 18h4"/>
+          </svg>
+        </div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">건축 분석 시뮬레이션 보기</div>
+          <div class="nav-card-desc">신규 건축 설계 및 수익성 상세 분석 데이터</div>
+        </div>
+        <div class="nav-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+             <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </a>
+
     </div>
 
   </div>
@@ -533,6 +560,15 @@
   </footer>
 
   <script>
+    function checkPassword(e) {
+      e.preventDefault();
+      const pw = prompt("비밀번호를 입력해주세요.");
+      if (pw === "2033") {
+        window.location.href = "analysis/building.html";
+      } else if (pw !== null) {
+        alert("비밀번호가 일치하지 않습니다.");
+      }
+    }
     (function () {
       // ── D-Day 계산 ──
       const DEADLINE = new Date('2026-05-07T17:00:00+09:00');

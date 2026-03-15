@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>괴정3 가로주택정비사업 단위세대 분석 대시보드</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="logo">
+            <i class="fa-solid fa-building"></i>
+            <h1>괴정3 가로주택정비사업 <span
+                    style="font-size: 0.65em; font-weight: 500; color: #718096; margin-left: 10px; display: inline-block; transform: translateY(-2px);">본
+                    자료는 최종 확정 전 검토 자료로 추후 변경될 수 있습니다.</span></h1>
+        </div>
+        <nav class="type-nav" id="typeNav">
+            <button class="type-btn active" data-type="59A">59A㎡</button>
+            <button class="type-btn" data-type="59B">59B㎡</button>
+            <button class="type-btn" data-type="59C">59C㎡</button>
+            <button class="type-btn" data-type="84">84㎡</button>
+            <button class="type-btn" data-type="139">139㎡</button>
+            <button class="type-btn compare-btn" data-type="ALL"><i class="fa-solid fa-table"></i> 한눈에 비교</button>
+        </nav>
+    </header>
+
+    <main class="dashboard" id="mainDashboard">
+        <!-- 좌측: 도면 뷰어 영역 -->
+        <section class="viewer-section">
+            <div class="viewer-header">
+                <h2 id="planTitle">59A㎡ 기본형 ↔ 확장형 비교</h2>
+                <div class="viewer-controls">
+                    <span class="legend-badge blue">파란색: 습식공간(욕실)</span>
+                    <span class="legend-badge yellow">황색: 주방/식당</span>
+                    <span class="legend-badge red-dash">빨간 파선: 확장 전 외벽</span>
+                </div>
+            </div>
+
+            <div class="image-comparison-container" id="imageComparison">
+                <button class="expand-btn" id="expandBtn" title="전체화면으로 크게 보기"><i
+                        class="fa-solid fa-expand"></i></button>
+                <div class="comparison-inner" id="comparisonInner">
+                    <div class="image-basic">
+                        <img id="basicImg" src="images/page_1.png" alt="기본형 도면">
+                        <div class="label label-basic">기본형</div>
+                    </div>
+                    <div class="image-extended" id="extendedWrapper">
+                        <img id="extendedImg" src="images/page_2.png" alt="확장형 도면">
+                        <div class="label label-extended">확장형</div>
+                    </div>
+                    <div class="slider-handle" id="sliderHandle">
+                        <div class="slider-line"></div>
+                        <div class="slider-button"><i class="fa-solid fa-arrows-left-right"></i></div>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="slider" id="compareSlider">
+                </div>
+            </div>
+            <div class="viewer-footer">
+                <p><i class="fa-solid fa-circle-info"></i> 중앙의 슬라이더를 좌우로 드래그하여 발코니 실내화 전/후(기본형↔확장형)의 차이를 직관적으로 확인하세요.
+                </p>
+                <div class="designer-info">
+                    <span>설계: 주)SD글로벌건축사사무소 (2025.07)</span>
+                    <span class="app-version" style="margin-left: 15px; color: var(--highlight); font-weight: bold;"><i
+                            class="fa-solid fa-code"></i> App by: artrdg_vo3</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 우측: 정보 및 팩트체크 패널 -->
+        <aside class="info-section">
+            <div class="info-card highlight-card">
+                <h3 id="planSubtitle">"가장 무난하고 안정적인 3Bay 표준형"</h3>
+                <div class="tags" id="planTags">
+                    <span class="tag">판상형 최적화</span>
+                    <span class="tag">무난함</span>
+                </div>
+            </div>
+
+            <div class="info-card stats-card">
+                <h4><i class="fa-solid fa-chart-pie"></i> 주요 제원</h4>
+                <div class="stats-grid" id="planStats">
+                    <div class="stat-item">
+                        <span class="stat-label">전용면적</span>
+                        <span class="stat-value">59㎡</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">침실 수</span>
+                        <span class="stat-value">3개</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">욕실 수</span>
+                        <span class="stat-value">2개</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">베이(Bay)</span>
+                        <span class="stat-value">3Bay [추정]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card details-card">
+                <h4><i class="fa-solid fa-list-check"></i> 상세 분석 요약</h4>
+                <ul id="planFeatures" class="feature-list">
+                    <!-- JS로 동적 생성됨 -->
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 종합 비교 모달 (숨김상태) -->
+    <div class="modal-overlay" id="compareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>전체 타입 종합 비교표</h2>
+                <button class="close-btn" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>타입</th>
+                            <th>전용면적</th>
+                            <th>전면 폭 (mm)</th>
+                            <th>침실 수</th>
+                            <th>욕실 수</th>
+                            <th>발코니 (기본형)</th>
+                            <th>Bay (추정)</th>
+                            <th>특화 공간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compareTableBody">
+                        <!-- JS로 동적 생성됨 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.1"></script>
+</body>
+
+</html>
