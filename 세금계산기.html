@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조합원 입주부담금 및 이주비 대출 계산기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #f3f4f6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark body {
+            background-color: #111827;
+            /* gray-900 */
+        }
+
+        .input-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .input-card {
+            background: #1f2937;
+            /* gray-800 */
+        }
+
+        .result-card {
+            background: #ffffff;
+            border-radius: 1rem;
+            border: 2px solid #e5e7eb;
+        }
+
+        .dark .result-card {
+            background: #1f2937;
+            border-color: #374151;
+            /* gray-700 */
+        }
+
+        .btn-toggle {
+            transition: all 0.2s;
+        }
+
+        .btn-toggle.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .dark .btn-toggle.active {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* ===== Print Styles ===== */
+        #printArea {
+            display: none;
+        }
+
+        @media print {
+
+            *,
+            *::before,
+            *::after {
+                color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                background: #fff !important;
+                color: #111 !important;
+                font-size: 12pt;
+            }
+
+            html.dark {
+                background: #fff !important;
+            }
+
+            body {
+                width: 210mm;
+                height: 297mm;
+                overflow: hidden;
+            }
+
+            /* Hide screen UI */
+            .max-w-6xl {
+                display: none !important;
+            }
+
+            /* Show print layout — fill the page */
+            #printArea {
+                display: block !important;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                font-family: 'Noto Sans KR', sans-serif;
+            }
+
+            #printArea .print-title {
+                text-align: center;
+                font-size: 22pt;
+                font-weight: 900;
+                border-bottom: 3px solid #111;
+                padding-bottom: 6px;
+                margin-bottom: 2px;
+            }
+
+            #printArea .print-date {
+                text-align: center;
+                font-size: 9pt;
+                color: #888;
+                margin-bottom: 10px;
+            }
+
+            #printArea .section-header {
+                font-size: 13pt;
+                font-weight: 900;
+                color: #222;
+                border-left: 4px solid #2563eb;
+                padding-left: 8px;
+                margin: 12px 0 6px 0;
+            }
+
+            #printArea .info-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            #printArea .info-table td {
+                padding: 5px 10px;
+                font-size: 12pt;
+                border-bottom: 1px solid #ddd;
+            }
+
+            #printArea .info-table td:first-child {
+                width: 32%;
+                font-weight: 700;
+                color: #444;
+                font-size: 12pt;
+            }
+
+            #printArea .info-table td:last-child {
+                text-align: right;
+            }
+
+            #printArea .info-table .kor {
+                font-size: 14pt;
+                font-weight: 900;
+                color: #111;
+            }
+
+            #printArea .info-table .num {
+                font-size: 10pt;
+                color: #777;
+            }
+
+            #printArea .highlight-box {
+                border: 3px solid #2563eb;
+                border-radius: 10px;
+                padding: 12px 16px;
+                margin: 6px 0;
+            }
+
+            #printArea .highlight-box .label {
+                font-size: 11pt;
+                color: #444;
+                font-weight: 700;
+                margin-bottom: 1px;
+            }
+
+            #printArea .highlight-box .big {
+                font-size: 24pt;
+                font-weight: 900;
+                color: #111;
+            }
+
+            #printArea .highlight-box .small {
+                font-size: 11pt;
+                color: #777;
+            }
+
+            #printArea .highlight-box.primary {
+                background: #2563eb;
+                border-color: #2563eb;
+            }
+
+            #printArea .highlight-box.primary .label,
+            #printArea .highlight-box.primary .small {
+                color: #bfdbfe;
+            }
+
+            #printArea .highlight-box.primary .big {
+                color: #fff;
+            }
+
+            #printArea .highlight-box.refund {
+                background: #059669;
+                border-color: #059669;
+            }
+
+            #printArea .highlight-box.refund .label,
+            #printArea .highlight-box.refund .small {
+                color: #a7f3d0;
+            }
+
+            #printArea .highlight-box.refund .big {
+                color: #fff;
+            }
+
+            #printArea .schedule-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 2px;
+            }
+
+            #printArea .schedule-table th {
+                background: #f3f4f6;
+                font-size: 11pt;
+                font-weight: 700;
+                color: #444;
+                padding: 8px 10px;
+                text-align: left;
+                border-bottom: 2px solid #d1d5db;
+            }
+
+            #printArea .schedule-table th:last-child,
+            #printArea .schedule-table td:last-child {
+                text-align: right;
+            }
+
+            #printArea .schedule-table td {
+                padding: 10px 10px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            #printArea .schedule-table .td-label {
+                font-weight: 700;
+                font-size: 14pt;
+            }
+
+            #printArea .schedule-table .td-sub {
+                font-size: 9pt;
+                color: #999;
+            }
+
+            #printArea .schedule-table .td-kor {
+                font-size: 17pt;
+                font-weight: 900;
+            }
+
+            #printArea .schedule-table .td-num {
+                font-size: 11pt;
+                color: #777;
+            }
+
+            #printArea .schedule-table .td-each {
+                font-size: 14pt;
+                font-weight: 800;
+                color: #2563eb;
+                background: #eff6ff;
+                padding: 4px 10px;
+                border-radius: 6px;
+                display: inline-block;
+                margin-top: 3px;
+            }
+
+            #printArea .loan-box {
+                background: #1e293b;
+                border-radius: 10px;
+                padding: 10px 14px;
+                margin-top: 6px;
+                color: #fff;
+            }
+
+            #printArea .loan-box .label {
+                font-size: 9pt;
+                color: #94a3b8;
+                font-weight: 700;
+            }
+
+            #printArea .loan-box .badge {
+                font-size: 8pt;
+                background: #2563eb;
+                color: #fff;
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-weight: 800;
+                float: right;
+            }
+
+            #printArea .loan-box .big {
+                font-size: 14pt;
+                font-weight: 900;
+                margin: 2px 0 1px;
+            }
+
+            #printArea .loan-box .small {
+                font-size: 9pt;
+                color: #94a3b8;
+            }
+
+            #printArea .print-footer {
+                margin-top: 10px;
+                font-size: 8pt;
+                color: #aaa;
+                text-align: center;
+                line-height: 1.5;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 8mm 10mm;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 dark:text-gray-100">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 relative flex flex-col items-center justify-center">
+            <!-- 메인으로 돌아가기 버튼 -->
+            <a href="index.html"
+                class="absolute left-0 top-0 p-2 flex items-center gap-1.5 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors bg-white dark:bg-gray-800 rounded-full shadow-sm border border-gray-200 dark:border-gray-700 no-underline text-sm font-semibold px-3"
+                style="text-decoration:none;">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                메인
+            </a>
+            <button id="darkModeToggle" onclick="toggleDarkMode()"
+                class="absolute right-0 top-0 p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors bg-white dark:bg-gray-800 rounded-full shadow-sm border border-gray-200 dark:border-gray-700">
+                <!-- Sun Icon (hidden in light mode, shown in dark mode) -->
+                <svg id="sunIcon" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                    </path>
+                </svg>
+                <!-- Moon Icon (shown in light mode, hidden in dark mode) -->
+                <svg id="moonIcon" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                    </path>
+                </svg>
+            </button>
+
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 pt-10 md:pt-0">조합원 입주부담금 납부 설명 <span
+                    class="text-blue-600 dark:text-blue-400 text-lg block md:inline">v0.1</span></h1>
+            <p class="text-gray-500 dark:text-gray-400">감정가와 비례율에 따른 실제 납부 금액을 즉시 확인하세요.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: Input Area -->
+            <div class="lg:col-span-5 flex flex-col gap-6 h-full">
+                <div class="input-card p-6 space-y-6">
+                    <!-- Appraisal Value -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">감정가 입력 (원)</label>
+                        <input type="text" id="appraisalValue" placeholder="예: 200,000,000"
+                            class="w-full text-xl p-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none text-right font-semibold"
+                            oninput="handleAppraisalInput(this)">
+                        <p id="appraisalKorean"
+                            class="text-sm text-blue-600 dark:text-blue-400 mt-1 text-right font-medium"></p>
+                    </div>
+
+                    <!-- Proportional Rate -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">비례율 (%)</label>
+                        <div class="flex items-center gap-2">
+                            <button onclick="adjustValue('proportionalRate', -0.1)"
+                                class="p-3 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-bold">▼</button>
+                            <input type="number" id="proportionalRate" value="100.15" step="0.1"
+                                class="flex-1 text-center text-xl p-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none font-semibold">
+                            <button onclick="adjustValue('proportionalRate', 0.1)"
+                                class="p-3 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-bold">▲</button>
+                        </div>
+                    </div>
+
+                    <!-- Housing Type (59A/B/C, 84, 139) -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">주택형 선택 (조합원
+                            분양가)</label>
+                        <div class="grid grid-cols-3 gap-2" id="housingTypeGroup">
+                            <button onclick="selectHousing('59A')"
+                                class="btn-toggle active border-2 dark:border-gray-600 dark:text-gray-300 p-2 rounded-lg text-sm font-semibold"
+                                data-type="59A">59A</button>
+                            <button onclick="selectHousing('59B')"
+                                class="btn-toggle border-2 dark:border-gray-600 dark:text-gray-300 p-2 rounded-lg text-sm font-semibold"
+                                data-type="59B">59B</button>
+                            <button onclick="selectHousing('59C')"
+                                class="btn-toggle border-2 dark:border-gray-600 dark:text-gray-300 p-2 rounded-lg text-sm font-semibold"
+                                data-type="59C">59C</button>
+                            <button onclick="selectHousing('84')"
+                                class="btn-toggle border-2 dark:border-gray-600 dark:text-gray-300 p-2 rounded-lg text-sm font-semibold"
+                                data-type="84">84</button>
+                            <button onclick="selectHousing('139')"
+                                class="btn-toggle border-2 dark:border-gray-600 dark:text-gray-300 p-2 rounded-lg text-sm font-semibold"
+                                data-type="139">139</button>
+                        </div>
+                        <p id="selectedPriceDisplay"
+                            class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-right italic font-medium"></p>
+                    </div>
+
+                    <!-- Relocation Loan Config -->
+                    <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">이주비 대출 기준</label>
+                        <div class="flex gap-2 mb-4">
+                            <button onclick="selectLoanBase('appraisal')" id="baseAppraisal"
+                                class="btn-toggle active flex-1 border-2 dark:border-gray-600 dark:text-gray-300 p-3 rounded-lg text-sm font-bold">감정가
+                                기준</button>
+                            <button onclick="selectLoanBase('rights')" id="baseRights"
+                                class="btn-toggle flex-1 border-2 dark:border-gray-600 dark:text-gray-300 p-3 rounded-lg text-sm font-bold">권리가액
+                                기준</button>
+                        </div>
+
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">이주비 대출 비율
+                            (%)</label>
+                        <div class="flex items-center gap-2">
+                            <button onclick="adjustValue('loanRatio', -1)"
+                                class="p-3 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-bold">▼</button>
+                            <input type="number" id="loanRatio" value="50" step="1"
+                                class="flex-1 text-center text-xl p-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none font-semibold">
+                            <button onclick="adjustValue('loanRatio', 1)"
+                                class="p-3 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-bold">▲</button>
+                        </div>
+                        <div id="loanWarning"
+                            class="hidden mt-3 p-3 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50 rounded-lg text-xs text-amber-700 dark:text-amber-400 leading-relaxed font-medium">
+                            ⚠️ 50% 초과분은 이자 발생 가능성이 있으므로 금융조건을 별도 확인해 주세요.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guide Text Box -->
+                <div
+                    class="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl space-y-3 border border-blue-100 dark:border-blue-800 mt-auto">
+                    <div class="flex gap-2 items-start">
+                        <span class="text-blue-600 dark:text-blue-400 mt-1 font-bold">💡</span>
+                        <p class="text-sm text-blue-900 dark:text-blue-200 leading-relaxed">
+                            <span class="font-bold">계약금</span>은 새집값 기준이 아니라 <span class="underline">입주부담금 기준</span>입니다.
+                        </p>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <span class="text-blue-600 dark:text-blue-400 mt-1 font-bold">💡</span>
+                        <p class="text-sm text-blue-900 dark:text-blue-200 leading-relaxed">
+                            <span class="font-bold">이주비 대출</span>은 종전자산에서 미리 빼는 돈이 아니라 별도 실행되는 대출입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Result Area -->
+            <div class="lg:col-span-7 flex flex-col h-full">
+                <div id="welcomeMessage"
+                    class="flex-1 flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+                    <div class="text-5xl mb-4">💰</div>
+                    <h3 class="text-xl font-bold text-gray-400 dark:text-gray-500">감정가를 입력하시면<br>계산 결과가 여기에 표시됩니다.</h3>
+                </div>
+
+                <div id="resultContent" class="hidden flex flex-col gap-6 flex-1 h-full">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="result-card p-5">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-bold mb-1">권리가액</p>
+                            <p id="resRightsValueKor" class="text-2xl font-black text-gray-900 dark:text-white">0원</p>
+                            <p id="resRightsValue" class="text-sm text-gray-500 dark:text-gray-400 font-medium">0원</p>
+                        </div>
+                        <div class="result-card p-5 bg-blue-600 border-blue-600 dark:bg-blue-700 dark:border-blue-700">
+                            <p id="resFeeLabel" class="text-sm text-blue-100 font-bold mb-1">입주부담금 (예상)</p>
+                            <p id="resSettlementFeeKor" class="text-2xl font-black text-white">0원</p>
+                            <p id="resSettlementFee" class="text-sm text-blue-100 font-medium">0원</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Schedule -->
+                    <div class="result-card overflow-hidden shadow-sm flex-1 flex flex-col">
+                        <div class="bg-gray-50 dark:bg-gray-750 px-5 py-3 border-b border-gray-200 dark:border-gray-700"
+                            style="background-color: var(--tw-prose-th-bg, rgba(249, 250, 251, 1));">
+                            <style>
+                                .dark .bg-gray-50 {
+                                    background-color: #374151 !important;
+                                }
+                            </style>
+                            <h4 class="font-bold text-lg text-gray-700 dark:text-gray-200">입주부담금 납부 일정</h4>
+                        </div>
+                        <div class="px-6 py-8 flex-1 flex flex-col justify-between">
+                            <!-- 계약금 -->
+                            <div
+                                class="flex justify-between items-center pb-5 border-b border-gray-100 dark:border-gray-700">
+                                <div>
+                                    <p class="font-bold text-lg text-gray-800 dark:text-gray-200">계약금 (10%)</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5 font-medium">관리처분인가 후 ~
+                                        일반분양 전</p>
+                                </div>
+                                <div class="text-right">
+                                    <p id="resContractKor" class="font-bold text-2xl text-gray-900 dark:text-white">0원
+                                    </p>
+                                    <p id="resContract" class="text-sm text-gray-500 dark:text-gray-400 font-medium">0원
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- 중도금 -->
+                            <div
+                                class="flex justify-between items-center pb-5 border-b border-gray-100 dark:border-gray-700">
+                                <div>
+                                    <p class="font-bold text-lg text-gray-800 dark:text-gray-200">중도금 (60%)</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5 font-medium">10%씩 6회 균등분할
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p id="resMidKor" class="font-bold text-2xl text-gray-900 dark:text-white mb-0.5">0원
+                                    </p>
+                                    <p id="resMid"
+                                        class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-2 text-right">0원
+                                    </p>
+                                    <!-- 중도금 회차별 금액 (크게 강조) -->
+                                    <div
+                                        class="inline-block bg-blue-50 dark:bg-blue-900/30 px-5 py-3 rounded-2xl text-right border border-blue-100 dark:border-blue-800 shadow-sm">
+                                        <p id="resMidEachKor"
+                                            class="text-xl text-blue-700 dark:text-blue-400 font-black">회당 0원</p>
+                                        <p id="resMidEach"
+                                            class="text-sm text-blue-500 dark:text-blue-400 font-bold mt-0.5">0원</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 잔금 -->
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-lg text-gray-800 dark:text-gray-200">잔금 (30%)</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5 font-medium">실제 입주일 상환</p>
+                                </div>
+                                <div class="text-right">
+                                    <p id="resBalanceKor" class="font-bold text-2xl text-gray-900 dark:text-white">0원
+                                    </p>
+                                    <p id="resBalance" class="text-sm text-gray-500 dark:text-gray-400 font-medium">0원
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Relocation Loan (compact) -->
+                    <div
+                        class="result-card p-5 bg-slate-900 dark:bg-slate-950 text-white shadow-xl rounded-xl mt-auto border border-slate-800">
+                        <div class="flex justify-between items-center">
+                            <div class="flex flex-col gap-1">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-bold text-slate-400 dark:text-slate-500">이주비 대출 가능액</p>
+                                    <span id="resLoanRatioBadge"
+                                        class="bg-blue-600 dark:bg-blue-700 text-[10px] px-2 py-0.5 rounded-full font-black tracking-tighter uppercase">LTV
+                                        50%</span>
+                                </div>
+                                <p id="loanBaseDisplay"
+                                    class="text-[11px] text-slate-500 dark:text-slate-600 font-bold tracking-wider"></p>
+                            </div>
+                            <div class="text-right">
+                                <p id="resLoanAmountKor" class="text-2xl font-black text-white leading-tight">0원</p>
+                                <p id="resLoanAmount"
+                                    class="text-sm text-slate-400 dark:text-slate-500 font-bold mt-0.5">0원</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800/80 leading-snug">
+                            이주비 대출 원리금은 <span class="text-slate-200 font-bold">입주일 또는 입주기간 만료일 중 빠른 날</span> 상환합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Print Button (below grid) -->
+        <div class="flex justify-center pt-6 pb-2">
+            <button onclick="printResult()"
+                class="flex items-center gap-2 px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white rounded-xl hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors font-bold text-sm shadow-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                인쇄하기
+            </button>
+        </div>
+
+        <!-- Footer Warning -->
+        <p class="text-[11px] text-gray-400 dark:text-gray-500 leading-relaxed text-center px-4 pb-2">
+            본 계산은 이해를 돕기 위한 추정값이며, 향후 사업시행계획·관리처분계획·금융조건 등에 따라 달라질 수 있습니다. 반드시 실제 관리처분 통지서를 확인해 주세요.
+        </p>
+        <p class="text-[10px] text-gray-300 dark:text-gray-600 text-center pb-4 font-medium">
+            Made by artistRDG · v0.1
+        </p>
+    </div>
+
+    <!-- ===== Print-Only Layout ===== -->
+    <div id="printArea">
+        <div class="print-title">조합원 입주부담금 계산 결과서</div>
+        <div class="print-date" id="printDate"></div>
+
+        <div class="section-header">입력 조건</div>
+        <table class="info-table">
+            <tr>
+                <td>감정가</td>
+                <td><span class="kor" id="pAppraisalKor"></span><br><span class="num" id="pAppraisal"></span></td>
+            </tr>
+            <tr>
+                <td>비례율</td>
+                <td><span class="kor" id="pRate"></span></td>
+            </tr>
+            <tr>
+                <td>주택형</td>
+                <td><span class="kor" id="pType"></span></td>
+            </tr>
+            <tr>
+                <td>조합원 분양가</td>
+                <td><span class="kor" id="pPriceKor"></span><br><span class="num" id="pPrice"></span></td>
+            </tr>
+        </table>
+
+        <div class="section-header">핵심 계산 결과</div>
+        <div style="display:flex;gap:10px;">
+            <div class="highlight-box" style="flex:1;">
+                <div class="label">권리가액</div>
+                <div class="big" id="pRightsKor"></div>
+                <div class="small" id="pRights"></div>
+            </div>
+            <div class="highlight-box primary" id="pFeeBox" style="flex:1;">
+                <div class="label" id="pFeeLabel">입주부담금 (예상)</div>
+                <div class="big" id="pFeeKor"></div>
+                <div class="small" id="pFee"></div>
+            </div>
+        </div>
+
+        <div class="section-header">납부 일정</div>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>시기</th>
+                    <th>금액</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="td-label">계약금 (10%)</span></td>
+                    <td><span class="td-sub">관리처분인가 후 ~ 일반분양 전</span></td>
+                    <td><span class="td-kor" id="pContractKor"></span><br><span class="td-num" id="pContract"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="td-label">중도금 (60%)</span><br><span class="td-sub">10%씩 6회 균등분할</span></td>
+                    <td></td>
+                    <td><span class="td-kor" id="pMidKor"></span><br><span class="td-num" id="pMid"></span><br><span
+                            class="td-each" id="pMidEach"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="td-label">잔금 (30%)</span></td>
+                    <td><span class="td-sub">실제 입주일 상환</span></td>
+                    <td><span class="td-kor" id="pBalanceKor"></span><br><span class="td-num" id="pBalance"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">이주비 대출 가능액</div>
+        <div class="loan-box">
+            <span class="label" id="pLoanBaseLabel">감정가 기준</span>
+            <span class="badge" id="pLoanBadge">LTV 50%</span>
+            <div class="big" id="pLoanKor"></div>
+            <div class="small" id="pLoan"></div>
+        </div>
+
+        <div class="print-footer">
+            ※ 본 계산은 이해를 돕기 위한 추정값이며, 향후 사업시행계획·관리처분계획·금융조건 등에 따라 달라질 수 있습니다.<br>
+            반드시 실제 관리처분 통지서를 확인해 주세요.<br>
+            <span style="margin-top:4px;display:inline-block;color:#bbb;">Made by artistRDG · v0.1</span>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle Logic
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Initialize Dark Mode on Load
+        function initTheme() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        initTheme();
+
+        // Fixed Housing Data
+        const housingPrices = {
+            '59A': 375478000,
+            '59B': 374385000,
+            '59C': 377661000,
+            '84': 521626000,
+            '139': 863790000
+        };
+
+        let state = {
+            appraisal: 0,
+            proportionalRate: 100.15,
+            selectedType: '59A',
+            loanBase: 'appraisal', // appraisal or rights
+            loanRatio: 50
+        };
+
+        // UI Event Handlers
+        function handleAppraisalInput(el) {
+            let val = el.value.replace(/[^0-9]/g, '');
+            state.appraisal = parseInt(val) || 0;
+            el.value = formatCurrency(state.appraisal);
+            document.getElementById('appraisalKorean').innerText = formatKorean(state.appraisal);
+            calculate();
+        }
+
+        function adjustValue(id, step) {
+            const input = document.getElementById(id);
+            let newVal = (parseFloat(input.value) + step).toFixed(2);
+            if (newVal < 0) newVal = 0;
+            input.value = newVal;
+            state[id] = parseFloat(newVal);
+            calculate();
+        }
+
+        function selectHousing(type) {
+            state.selectedType = type;
+            const buttons = document.querySelectorAll('#housingTypeGroup button');
+            buttons.forEach(btn => {
+                if (btn.dataset.type === type) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            document.getElementById('selectedPriceDisplay').innerText = `선택된 분양가: ${formatCurrency(housingPrices[type])}원`;
+            calculate();
+        }
+
+        function selectLoanBase(base) {
+            state.loanBase = base;
+            document.getElementById('baseAppraisal').classList.toggle('active', base === 'appraisal');
+            document.getElementById('baseRights').classList.toggle('active', base === 'rights');
+            calculate();
+        }
+
+        // Calculation Engine
+        function calculate() {
+            state.proportionalRate = parseFloat(document.getElementById('proportionalRate').value) || 0;
+            state.loanRatio = parseFloat(document.getElementById('loanRatio').value) || 0;
+
+            if (state.appraisal <= 0) {
+                document.getElementById('welcomeMessage').classList.remove('hidden');
+                document.getElementById('resultContent').classList.add('hidden');
+                return;
+            } else {
+                document.getElementById('welcomeMessage').classList.add('hidden');
+                document.getElementById('resultContent').classList.remove('hidden');
+            }
+
+            // 1. Rights Value
+            const rightsValue = Math.floor(state.appraisal * (state.proportionalRate / 100));
+
+            // 2. Settlement Fee
+            const memberPrice = housingPrices[state.selectedType];
+            const settlementFee = memberPrice - rightsValue;
+            const isRefund = settlementFee < 0;
+
+            // 3. Payment Schedule
+            const contract = isRefund ? 0 : Math.floor(settlementFee * 0.1);
+            const mid = isRefund ? 0 : Math.floor(settlementFee * 0.6);
+            const balance = isRefund ? 0 : Math.floor(settlementFee * 0.3);
+            const midEach = isRefund ? 0 : Math.floor(settlementFee * 0.1);
+
+            // 4. Relocation Loan
+            const loanBaseVal = (state.loanBase === 'appraisal') ? state.appraisal : rightsValue;
+            const loanAmount = Math.floor(loanBaseVal * (state.loanRatio / 100));
+
+            updateUI({
+                rightsValue,
+                settlementFee,
+                isRefund,
+                contract,
+                mid,
+                midEach,
+                balance,
+                loanAmount,
+                loanBaseLabel: (state.loanBase === 'appraisal') ? '감정가 기준' : '권리가액 기준'
+            });
+        }
+
+        function updateUI(res) {
+            // Summary
+            document.getElementById('resRightsValue').innerText = formatCurrency(res.rightsValue) + '원';
+            document.getElementById('resRightsValueKor').innerText = formatKorean(res.rightsValue);
+
+            const feeLabel = document.getElementById('resFeeLabel');
+            const feeVal = document.getElementById('resSettlementFee');
+            const feeKor = document.getElementById('resSettlementFeeKor');
+
+            if (res.isRefund) {
+                feeLabel.innerText = '환급금 예상';
+                document.getElementById('resSettlementFeeKor').innerText = formatKorean(Math.abs(res.settlementFee));
+                document.getElementById('resSettlementFee').innerText = formatCurrency(Math.abs(res.settlementFee)) + '원';
+                document.getElementById('resSettlementFee').parentElement.classList.remove('bg-blue-600', 'dark:bg-blue-700', 'border-blue-600', 'dark:border-blue-700');
+                document.getElementById('resSettlementFee').parentElement.classList.add('bg-emerald-600', 'dark:bg-emerald-700', 'border-emerald-600', 'dark:border-emerald-700');
+            } else {
+                feeLabel.innerText = '입주부담금 (예상)';
+                document.getElementById('resSettlementFeeKor').innerText = formatKorean(res.settlementFee);
+                document.getElementById('resSettlementFee').innerText = formatCurrency(res.settlementFee) + '원';
+                document.getElementById('resSettlementFee').parentElement.classList.remove('bg-emerald-600', 'dark:bg-emerald-700', 'border-emerald-600', 'dark:border-emerald-700');
+                document.getElementById('resSettlementFee').parentElement.classList.add('bg-blue-600', 'dark:bg-blue-700', 'border-blue-600', 'dark:border-blue-700');
+            }
+
+            // Schedule
+            document.getElementById('resContract').innerText = formatCurrency(res.contract) + '원';
+            document.getElementById('resContractKor').innerText = formatKorean(res.contract);
+            document.getElementById('resMid').innerText = formatCurrency(res.mid) + '원';
+            document.getElementById('resMidKor').innerText = formatKorean(res.mid);
+            document.getElementById('resMidEachKor').innerText = `회당 ${formatKorean(res.midEach)} (6회분납)`;
+            document.getElementById('resMidEach').innerText = formatCurrency(res.midEach) + '원';
+            document.getElementById('resBalance').innerText = formatCurrency(res.balance) + '원';
+            document.getElementById('resBalanceKor').innerText = formatKorean(res.balance);
+
+            // Loan
+            document.getElementById('resLoanAmount').innerText = formatCurrency(res.loanAmount) + '원';
+            document.getElementById('resLoanAmountKor').innerText = formatKorean(res.loanAmount);
+            document.getElementById('loanBaseDisplay').innerText = res.loanBaseLabel;
+            document.getElementById('resLoanRatioBadge').innerText = `LTV ${state.loanRatio}% 기준`;
+
+            // Warnings
+            document.getElementById('loanWarning').classList.toggle('hidden', state.loanRatio <= 50);
+        }
+
+        // Helpers
+        function formatCurrency(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function formatKorean(num) {
+            if (num === 0) return "0원";
+            const units = ["", "만", "억", "조"];
+            let result = [];
+            let unitIndex = 0;
+
+            let tempNum = num;
+            while (tempNum > 0) {
+                let chunk = tempNum % 10000;
+                if (chunk > 0) {
+                    result.push(formatCurrency(chunk) + units[unitIndex]);
+                }
+                tempNum = Math.floor(tempNum / 10000);
+                unitIndex++;
+            }
+            return result.reverse().join(" ") + "원";
+        }
+
+        // Print Function
+        function printResult() {
+            if (state.appraisal <= 0) { alert('감정가를 먼저 입력해주세요.'); return; }
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')} 출력`;
+            document.getElementById('printDate').innerText = dateStr;
+
+            const rate = parseFloat(document.getElementById('proportionalRate').value) || 0;
+            const rightsValue = Math.floor(state.appraisal * (rate / 100));
+            const memberPrice = housingPrices[state.selectedType];
+            const settlementFee = memberPrice - rightsValue;
+            const isRefund = settlementFee < 0;
+            const absFee = Math.abs(settlementFee);
+            const contract = isRefund ? 0 : Math.floor(settlementFee * 0.1);
+            const mid = isRefund ? 0 : Math.floor(settlementFee * 0.6);
+            const midEach = isRefund ? 0 : Math.floor(settlementFee * 0.1);
+            const balance = isRefund ? 0 : Math.floor(settlementFee * 0.3);
+            const loanBaseVal = (state.loanBase === 'appraisal') ? state.appraisal : rightsValue;
+            const loanAmount = Math.floor(loanBaseVal * (state.loanRatio / 100));
+
+            // Input conditions
+            document.getElementById('pAppraisalKor').innerText = formatKorean(state.appraisal);
+            document.getElementById('pAppraisal').innerText = formatCurrency(state.appraisal) + '원';
+            document.getElementById('pRate').innerText = rate + '%';
+            document.getElementById('pType').innerText = state.selectedType + '형';
+            document.getElementById('pPriceKor').innerText = formatKorean(memberPrice);
+            document.getElementById('pPrice').innerText = formatCurrency(memberPrice) + '원';
+
+            // Core results
+            document.getElementById('pRightsKor').innerText = formatKorean(rightsValue);
+            document.getElementById('pRights').innerText = formatCurrency(rightsValue) + '원';
+
+            const feeBox = document.getElementById('pFeeBox');
+            feeBox.className = isRefund ? 'highlight-box refund' : 'highlight-box primary';
+            document.getElementById('pFeeLabel').innerText = isRefund ? '환급금 (예상)' : '입주부담금 (예상)';
+            document.getElementById('pFeeKor').innerText = formatKorean(absFee);
+            document.getElementById('pFee').innerText = formatCurrency(absFee) + '원';
+
+            // Schedule
+            document.getElementById('pContractKor').innerText = formatKorean(contract);
+            document.getElementById('pContract').innerText = formatCurrency(contract) + '원';
+            document.getElementById('pMidKor').innerText = formatKorean(mid);
+            document.getElementById('pMid').innerText = formatCurrency(mid) + '원';
+            document.getElementById('pMidEach').innerText = '회당 ' + formatKorean(midEach);
+            document.getElementById('pBalanceKor').innerText = formatKorean(balance);
+            document.getElementById('pBalance').innerText = formatCurrency(balance) + '원';
+
+            // Loan
+            document.getElementById('pLoanBaseLabel').innerText = (state.loanBase === 'appraisal') ? '감정가 기준' : '권리가액 기준';
+            document.getElementById('pLoanBadge').innerText = 'LTV ' + state.loanRatio + '%';
+            document.getElementById('pLoanKor').innerText = formatKorean(loanAmount);
+            document.getElementById('pLoan').innerText = formatCurrency(loanAmount) + '원';
+
+            window.print();
+        }
+
+        window.onload = () => {
+            selectHousing('59A');
+            document.getElementById('proportionalRate').addEventListener('change', calculate);
+            document.getElementById('loanRatio').addEventListener('change', calculate);
+        };
+    </script>
+</body>
+
+</html>

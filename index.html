@@ -417,6 +417,7 @@
     .nav-cards .nav-card:nth-child(2) { animation: fadeUp 0.6s ease both; animation-delay: 0.6s; }
     .nav-cards .nav-card:nth-child(3) { animation: fadeUp 0.6s ease both; animation-delay: 0.7s; }
     .nav-cards .nav-card:nth-child(4) { animation: fadeUp 0.6s ease both; animation-delay: 0.8s; }
+    .nav-cards .nav-card:nth-child(5) { animation: fadeUp 0.6s ease both; animation-delay: 0.9s; }
 
     /* ══════════════════════════════════════
        Responsive
@@ -505,7 +506,32 @@
         </div>
       </a>
 
-      <!-- Card 2: 무상 옵션 및 혜택 안내 -->
+      <!-- Card 2: 입주부담금 납부 계산기 -->
+      <a class="nav-card" href="세금계산기.html">
+        <div class="nav-card-icon" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="10" x2="10" y2="10"/>
+            <line x1="12" y1="10" x2="14" y2="10"/>
+            <line x1="8" y1="14" x2="10" y2="14"/>
+            <line x1="12" y1="14" x2="14" y2="14"/>
+            <line x1="8" y1="18" x2="10" y2="18"/>
+            <line x1="12" y1="18" x2="16" y2="18"/>
+          </svg>
+        </div>
+        <div class="nav-card-body">
+          <div class="nav-card-title">입주부담금 납부 계산기</div>
+          <div class="nav-card-desc">감정가·비례율로 납부 일정 및 이주비 대출 조회</div>
+        </div>
+        <div class="nav-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Card 3: 무상 옵션 및 혜택 안내 -->
       <a class="nav-card" href="최종_조합원_분양_혜택.html">
         <div class="nav-card-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -526,7 +552,7 @@
       </a>
 
       <!-- Card 3: 건축 분석 시뮬레이션 -->
-      <a class="nav-card nav-card-full" href="#" onclick="checkPassword(event)">
+      <a class="nav-card" href="#" onclick="checkPassword(event)">
         <div class="nav-card-icon" style="background: rgba(91, 124, 250, 0.12); color: var(--accent);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16H4"/>
@@ -548,27 +574,6 @@
         </div>
       </a>
 
-      <!-- Card 4: 괴정3 전체 상세 요약 보기 -->
-      <a class="nav-card nav-card-full" href="#" onclick="checkPasswordNew(event)">
-        <div class="nav-card-icon" style="background: rgba(250, 150, 91, 0.12); color: #fa965b;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-        </div>
-        <div class="nav-card-body">
-          <div class="nav-card-title">괴정3 전체 상세 요약 보기</div>
-          <div class="nav-card-desc">괴정3 구역의 종합 분석 및 요약 자료 모음</div>
-        </div>
-        <div class="nav-card-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-             <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </div>
-      </a>
 
     </div>
 
@@ -594,15 +599,6 @@
       }
     }
 
-    function checkPasswordNew(e) {
-      e.preventDefault();
-      const pw = prompt("비밀번호를 입력해주세요.");
-      if (pw === "2033") {
-        window.location.href = "goejeong3-all/apt.html";
-      } else if (pw !== null) {
-        alert("비밀번호가 일치하지 않습니다.");
-      }
-    }
 
     (function () {
       // ── D-Day 계산 ──
