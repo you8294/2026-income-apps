@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신청률 계산기</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── 다크 모드 (기본) ── */
+  :root, [data-theme="dark"] {
+    --bg:             #080B12;
+    --surface:        #111520;
+    --surface2:       #1A1F2E;
+    --border:         rgba(255,255,255,0.07);
+    --border2:        rgba(255,255,255,0.13);
+    --divider:        rgba(255,255,255,0.07);
+    --text-primary:   #E8ECF8;
+    --text-secondary: #6B7591;
+    --text-dim:       #2E3450;
+    --grid-line:      rgba(255,255,255,0.018);
+    --badge-bg:       rgba(75,142,245,0.09);
+    --badge-border:   rgba(75,142,245,0.22);
+    --badge-text:     #7AABFF;
+    --hero-color:     #7AABFF;
+    --blue:           #4B8EF5;
+    --blue-l:         #7AABFF;
+    --green:          #34D399;
+    --red:            #F87171;
+    --toggle-bg:      #1A1F2E;
+    --toggle-border:  rgba(255,255,255,0.12);
+    --toggle-inactive:#6B7591;
+    --toggle-active-bg:     rgba(75,142,245,0.15);
+    --toggle-active-text:   #7AABFF;
+    --toggle-active-border: rgba(75,142,245,0.35);
+  }
+
+  /* ── 라이트 모드 ── */
+  [data-theme="light"] {
+    --bg:             #F4F6FB;
+    --surface:        #FFFFFF;
+    --surface2:       #EEF1F8;
+    --border:         rgba(0,0,0,0.07);
+    --border2:        rgba(0,0,0,0.11);
+    --divider:        rgba(0,0,0,0.08);
+    --text-primary:   #111827;
+    --text-secondary: #6B7280;
+    --text-dim:       #C4CAD6;
+    --grid-line:      rgba(0,0,0,0.04);
+    --badge-bg:       rgba(37,99,235,0.07);
+    --badge-border:   rgba(37,99,235,0.2);
+    --badge-text:     #2563EB;
+    --hero-color:     #2563EB;
+    --blue:           #3B82F6;
+    --blue-l:         #2563EB;
+    --green:          #059669;
+    --red:            #DC2626;
+    --toggle-bg:      #FFFFFF;
+    --toggle-border:  rgba(0,0,0,0.11);
+    --toggle-inactive:#9CA3AF;
+    --toggle-active-bg:     rgba(37,99,235,0.09);
+    --toggle-active-text:   #2563EB;
+    --toggle-active-border: rgba(37,99,235,0.28);
+  }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  [data-theme="light"] body { background: #C9CDD9; }
+
+  /* 16:9 고정 비율 컨테이너 */
+  .screen {
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    max-width: 177.78vh;
+    background: var(--bg);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  /* 배경 그리드 */
+  .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 5.55% 9.26%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── 테마 토글 ── */
+  .theme-toggle {
+    position: absolute;
+    top: 4.5%;
+    right: 4.5%;
+    z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    background: var(--toggle-bg);
+    border: 1px solid var(--toggle-border);
+    border-radius: 999px;
+    padding: 4px;
+    gap: 2px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: clamp(4px,0.5vh,7px) clamp(10px,1vw,16px);
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(9px, 0.85vw, 12px);
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--toggle-inactive);
+    background: transparent;
+    letter-spacing: 0.04em;
+    transition: all 0.22s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .theme-btn svg {
+    width: clamp(10px, 0.95vw, 14px);
+    height: clamp(10px, 0.95vw, 14px);
+    flex-shrink: 0;
+  }
+  .theme-btn.active {
+    background: var(--toggle-active-bg);
+    border-color: var(--toggle-active-border);
+    color: var(--toggle-active-text);
+  }
+  .theme-btn:not(.active):hover {
+    color: var(--text-primary);
+    background: var(--surface2);
+  }
+
+  /* ── 좌측 패널 ── */
+  .left {
+    width: 40%;
+    height: 100%;
+    border-right: 1px solid var(--divider);
+    padding: 5.5% 6.5% 5%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    transition: border-color 0.3s;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    border-radius: 999px;
+    padding: 5px 13px;
+    margin-bottom: 5%;
+    width: fit-content;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    animation: blink 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  .badge span {
+    font-size: clamp(9px, 0.9vw, 12px);
+    color: var(--badge-text);
+    letter-spacing: 0.07em;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .page-title {
+    font-size: clamp(22px, 3.4vw, 52px);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    margin-bottom: 2%;
+    transition: color 0.3s;
+  }
+  .page-title em { font-style: normal; color: var(--blue-l); transition: color 0.3s; }
+
+  .page-desc {
+    font-size: clamp(10px, 1vw, 14px);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.65;
+    margin-bottom: 6%;
+    transition: color 0.3s;
+  }
+
+  /* 입력 영역 */
+  .inputs { flex:1; display:flex; flex-direction:column; justify-content:center; gap:4.5%; }
+  .inp-group { display:flex; flex-direction:column; gap:5px; }
+  .inp-label {
+    font-size: clamp(9px, 0.88vw, 12px);
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .inp-row {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: clamp(8px, 1vw, 14px);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;
+  }
+  .inp-row:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(75,142,245,0.13);
+  }
+  .inp-row.invalid {
+    border-color: var(--red) !important;
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.11) !important;
+  }
+  .inp-field {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0 clamp(12px, 1.4vw, 20px);
+    height: clamp(40px, 6.5vh, 64px);
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(18px, 2.4vw, 36px);
+    font-weight: 500;
+    color: var(--text-primary);
+    -moz-appearance: textfield;
+    transition: color 0.3s;
+  }
+  .inp-field::-webkit-inner-spin-button,
+  .inp-field::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .inp-field::placeholder { color: var(--text-dim); }
+  .inp-unit {
+    font-size: clamp(10px, 1vw, 14px);
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding-right: clamp(12px, 1.4vw, 20px);
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .left-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 5%;
+  }
+  .err-msg {
+    font-size: clamp(9px, 0.85vw, 11px);
+    color: var(--red);
+    flex: 1;
+    line-height: 1.4;
+    min-height: 1em;
+  }
+  .btn-reset {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: clamp(6px,0.6vh,10px) clamp(14px,1.4vw,22px);
+    color: var(--text-secondary);
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(9px, 0.9vw, 12px);
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .btn-reset:hover { color: var(--text-primary); background: var(--surface2); }
+  .btn-reset:active { transform: scale(0.97); }
+
+  /* ── 우측 패널 ── */
+  .right {
+    flex: 1;
+    height: 100%;
+    padding: 4.8% 6% 4.2%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero { flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .hero-label {
+    font-size: clamp(9px, 0.9vw, 12px);
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 1%;
+    transition: color 0.3s;
+  }
+  .hero-num {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(56px, 12vw, 186px);
+    font-weight: 500;
+    color: var(--hero-color);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    transition: color 0.35s;
+  }
+  .hero-sub {
+    font-size: clamp(9px, 0.95vw, 13px);
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-top: 1.8%;
+    min-height: 1.4em;
+    transition: color 0.3s;
+  }
+
+  .metrics { display:grid; grid-template-columns:1fr 1fr; gap:2.2%; margin-bottom:4%; }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: clamp(10px, 1.1vw, 18px);
+    padding: 4.5% 5%;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .metric-lbl {
+    font-size: clamp(9px, 0.85vw, 12px);
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 5%;
+    display: block;
+    transition: color 0.3s;
+  }
+  .metric-val {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(20px, 3vw, 46px);
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+
+  .bar-section { flex-shrink: 0; }
+  .bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.8%; }
+  .bar-title {
+    font-size: clamp(9px, 0.85vw, 12px);
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .bar-count {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(9px, 0.95vw, 13px);
+    color: var(--text-secondary);
+    transition: color 0.3s;
+  }
+  .bar-track {
+    position: relative;
+    height: clamp(5px, 0.75vh, 10px);
+    background: var(--surface2);
+    border-radius: 99px;
+    overflow: visible;
+    transition: background 0.3s;
+  }
+  .bar-fill {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 0%;
+    border-radius: 99px;
+    background: var(--blue);
+    transition: width 0.4s cubic-bezier(.4,0,.2,1), background 0.3s;
+  }
+  .bar-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 320%;
+    border-radius: 1px;
+    background: var(--red);
+    display: none;
+    transition: background 0.3s;
+  }
+  .bar-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1.4%; }
+  .bar-tick {
+    font-size: clamp(9px, 0.8vw, 11px);
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    transition: color 0.3s;
+  }
+  .goal-lbl {
+    font-size: clamp(9px, 0.8vw, 11px);
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    display: none;
+    transition: color 0.3s;
+  }
+  .status-line {
+    font-size: clamp(9px, 0.85vw, 12px);
+    font-weight: 400;
+    min-height: 1.4em;
+    margin-top: 2%;
+    letter-spacing: 0.01em;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- 테마 토글 -->
+  <div class="theme-toggle">
+    <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      다크
+    </button>
+    <button class="theme-btn" id="btn-light" onclick="setTheme('light')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      라이트
+    </button>
+  </div>
+
+  <!-- 좌측 패널 -->
+  <div class="left">
+    <div>
+      <div class="badge">
+        <div class="badge-dot"></div>
+        <span>신청률 계산기</span>
+      </div>
+      <h1 class="page-title">퍼센트<br><em>계산기</em></h1>
+      <p class="page-desc">전체 인원과 현재 신청 인원을 입력하면<br>달성률과 필요 인원이 자동으로 계산됩니다.</p>
+    </div>
+
+    <div class="inputs">
+      <div class="inp-group">
+        <span class="inp-label">전체 인원</span>
+        <div class="inp-row" id="row-total">
+          <input class="inp-field" type="number" id="i-total" inputmode="numeric" min="1" placeholder="100">
+          <span class="inp-unit">명</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <span class="inp-label">현재 신청</span>
+        <div class="inp-row" id="row-current">
+          <input class="inp-field" type="number" id="i-current" inputmode="numeric" min="0" placeholder="45">
+          <span class="inp-unit">명</span>
+        </div>
+      </div>
+      <div class="inp-group">
+        <span class="inp-label">목표 달성률</span>
+        <div class="inp-row" id="row-target">
+          <input class="inp-field" type="number" id="i-target" inputmode="numeric" min="0" max="100" placeholder="80">
+          <span class="inp-unit">%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="left-footer">
+      <div id="err-msg" class="err-msg"></div>
+      <button class="btn-reset" onclick="resetAll()">초기화</button>
+    </div>
+  </div>
+
+  <!-- 우측 패널 -->
+  <div class="right">
+    <div class="hero">
+      <div class="hero-label">현재 달성률</div>
+      <div class="hero-num" id="hero-pct">—</div>
+      <div class="hero-sub" id="hero-sub"></div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric-card">
+        <span class="metric-lbl">목표 인원</span>
+        <div class="metric-val" id="m-goal">—</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-lbl">추가 필요</span>
+        <div class="metric-val" id="m-need">—</div>
+      </div>
+    </div>
+
+    <div class="bar-section">
+      <div class="bar-header">
+        <span class="bar-title">진행 현황</span>
+        <span class="bar-count" id="bar-count">—</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="bar-fill"></div>
+        <div class="bar-marker" id="bar-marker"></div>
+      </div>
+      <div class="bar-footer">
+        <span class="bar-tick">0%</span>
+        <span class="goal-lbl" id="goal-lbl">목표 <span id="goal-pct-span"></span></span>
+        <span class="bar-tick">100%</span>
+      </div>
+      <div class="status-line" id="status-line"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const E = {
+    total:   document.getElementById('i-total'),
+    current: document.getElementById('i-current'),
+    target:  document.getElementById('i-target'),
+    rowCur:  document.getElementById('row-current'),
+    rowTgt:  document.getElementById('row-target'),
+    err:     document.getElementById('err-msg'),
+    hero:    document.getElementById('hero-pct'),
+    heroSub: document.getElementById('hero-sub'),
+    mGoal:   document.getElementById('m-goal'),
+    mNeed:   document.getElementById('m-need'),
+    fill:    document.getElementById('bar-fill'),
+    marker:  document.getElementById('bar-marker'),
+    barCnt:  document.getElementById('bar-count'),
+    goalLbl: document.getElementById('goal-lbl'),
+    goalPct: document.getElementById('goal-pct-span'),
+    status:  document.getElementById('status-line'),
+    btnDark:  document.getElementById('btn-dark'),
+    btnLight: document.getElementById('btn-light'),
+  };
+
+  /* ── 테마 전환 ── */
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    E.btnDark.classList.toggle('active',  t === 'dark');
+    E.btnLight.classList.toggle('active', t === 'light');
+    try { localStorage.setItem('calc-theme', t); } catch(e){}
+    calculate();
+  }
+
+  /* 저장된 테마 복원 */
+  (function() {
+    try {
+      const saved = localStorage.getItem('calc-theme');
+      if (saved === 'light') setTheme('light');
+    } catch(e) {}
+  })();
+
+  /* CSS 변수 값 읽기 */
+  function cv(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  function fmt(n) { return n % 1 === 0 ? String(n) : n.toFixed(1); }
+
+  function calculate() {
+    const total   = parseInt(E.total.value)   || 0;
+    const current = parseInt(E.current.value) || 0;
+    const target  = parseInt(E.target.value)  || 0;
+
+    E.err.textContent = '';
+    E.rowCur.classList.remove('invalid');
+    E.rowTgt.classList.remove('invalid');
+
+    if (total > 0 && current > total) {
+      E.err.textContent = '신청 인원이 전체 인원을 초과할 수 없습니다.';
+      E.rowCur.classList.add('invalid');
+      return;
+    }
+    if (target > 100) {
+      E.err.textContent = '목표 달성률은 100%를 초과할 수 없습니다.';
+      E.rowTgt.classList.add('invalid');
+      return;
+    }
+
+    if (total <= 0) { resetDisplay(); return; }
+
+    const pct    = (current / total) * 100;
+    const pctFmt = fmt(parseFloat(pct.toFixed(1)));
+    const blue   = cv('--blue');
+    const blueL  = cv('--blue-l');
+    const green  = cv('--green');
+    const red    = cv('--red');
+
+    E.hero.textContent    = pctFmt + '%';
+    E.fill.style.width    = Math.min(pct, 100) + '%';
+    E.barCnt.textContent  = current.toLocaleString() + ' / ' + total.toLocaleString() + ' 명';
+    E.heroSub.textContent = current.toLocaleString() + '명 신청 중';
+
+    if (target > 0) {
+      const goalCount = Math.ceil(total * (target / 100));
+      const needed    = goalCount - current;
+
+      E.mGoal.textContent     = goalCount.toLocaleString() + ' 명';
+      E.marker.style.left     = target + '%';
+      E.marker.style.display  = 'block';
+      E.goalLbl.style.display = 'block';
+      E.goalPct.textContent   = target + '%';
+
+      if (needed <= 0) {
+        E.mNeed.textContent       = '달성 완료';
+        E.mNeed.style.color       = green;
+        E.fill.style.background   = green;
+        E.marker.style.background = green;
+        E.goalLbl.style.color     = green;
+        E.hero.style.color        = green;
+        E.status.textContent      = '목표를 달성했습니다. 수고하셨습니다!';
+        E.status.style.color      = green;
+      } else {
+        E.mNeed.textContent       = '+' + needed.toLocaleString() + ' 명';
+        E.mNeed.style.color       = red;
+        E.fill.style.background   = blue;
+        E.marker.style.background = red;
+        E.goalLbl.style.color     = red;
+        E.hero.style.color        = blueL;
+        E.status.textContent      = '목표 달성까지 ' + needed.toLocaleString() + '명이 더 필요합니다.';
+        E.status.style.color      = red;
+      }
+    } else {
+      E.mGoal.textContent       = '—';
+      E.mNeed.textContent       = '—';
+      E.mNeed.style.color       = '';
+      E.fill.style.background   = blue;
+      E.marker.style.display    = 'none';
+      E.goalLbl.style.display   = 'none';
+      E.hero.style.color        = blueL;
+      E.status.textContent      = '';
+    }
+  }
+
+  function resetDisplay() {
+    E.hero.textContent      = '—';
+    E.hero.style.color      = '';
+    E.heroSub.textContent   = '';
+    E.mGoal.textContent     = '—';
+    E.mNeed.textContent     = '—';
+    E.mNeed.style.color     = '';
+    E.fill.style.width      = '0%';
+    E.fill.style.background = cv('--blue');
+    E.marker.style.display  = 'none';
+    E.goalLbl.style.display = 'none';
+    E.barCnt.textContent    = '—';
+    E.status.textContent    = '';
+  }
+
+  function resetAll() {
+    E.total.value = '';
+    E.current.value = '';
+    E.target.value = '';
+    E.err.textContent = '';
+    E.rowCur.classList.remove('invalid');
+    E.rowTgt.classList.remove('invalid');
+    resetDisplay();
+    E.total.focus();
+  }
+
+  E.total.addEventListener('input', calculate);
+  E.current.addEventListener('input', calculate);
+  E.target.addEventListener('input', calculate);
+</script>
+</body>
+</html>
