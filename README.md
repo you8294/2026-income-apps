@@ -74,12 +74,16 @@
 |---|---|---|
 | `최종_괴정3_글자최대_출력최적화.html` | ✅ (좌상단 고정) | `index.html` |
 | `최종_조합원_분양_혜택.html` | ✅ (좌상단 고정) | `index.html` |
+| `percent-calculator.html` | ✅ (좌상단 고정) | `index.html` |
 | `analysis/building.html` | ✅ (좌상단 고정) | `../index.html` |
 | `goejeong3-all/apt.html` | ✅ (좌상단 고정) | `../index.html` |
 
 ---
 
 ## ✅ 작업 이력
+
+### 2026-04-28
+- `percent-calculator.html`에 메인으로 돌아가는 버튼 추가 (타 페이지와 일관성 있는 좌상단 위치 및 디자인 적용)
 
 ### 2026-03-20
 - 모든 페이지 푸터에 버전 표시 **`artistRDG vo2`** 통일 적용
