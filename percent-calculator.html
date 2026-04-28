@@ -151,6 +151,40 @@
     background: var(--surface2);
   }
 
+  /* ── 홈 네비게이션 ── */
+  .home-nav {
+    position: absolute;
+    top: 4.5%;
+    left: 4.5%;
+    z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    background: var(--toggle-bg);
+    border: 1px solid var(--toggle-border);
+    border-radius: 999px;
+    padding: clamp(4px,0.5vh,7px) clamp(10px,1vw,16px);
+    gap: 5px;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(9px, 0.85vw, 12px);
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--toggle-inactive);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.22s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .home-nav svg {
+    width: clamp(10px, 0.95vw, 14px);
+    height: clamp(10px, 0.95vw, 14px);
+    flex-shrink: 0;
+  }
+  .home-nav:hover {
+    color: var(--text-primary);
+    background: var(--surface2);
+  }
+
   /* ── 좌측 패널 ── */
   .left {
     width: 40%;
@@ -438,6 +472,12 @@
 </head>
 <body>
 <div class="screen">
+
+  <!-- 홈 네비게이션 -->
+  <a class="home-nav" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    메인으로
+  </a>
 
   <!-- 테마 토글 -->
   <div class="theme-toggle">
